@@ -9,7 +9,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 #endif
 
-namespace GoogleUserMessagingPlatform
+namespace com.binouze
 {
     #if UNITY_ANDROID
     public enum ConsentStatus
