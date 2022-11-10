@@ -163,15 +163,23 @@ namespace com.binouze
 
             return false;
         }
-        
-        
+
+        /// <summary>
+        /// Show the form if the form is available
+        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
+        /// </summary>
+        [UsedImplicitly]
+        public static void ShowForm()
+        {
+            ShowForm( null );
+        }
         /// <summary>
         /// Show the form if the form is available
         /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
         /// <param name="onComplete"></param>
         [UsedImplicitly]
-        public static void ShowForm( Action onComplete = null )
+        public static void ShowForm( Action onComplete )
         {
             Log( "ShowForm" );
             
@@ -195,9 +203,18 @@ namespace com.binouze
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
         /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
+        [UsedImplicitly]
+        public static void ShowFormIfRequired()
+        {
+            ShowFormIfRequired( null );
+        }
+        /// <summary>
+        /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
+        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
+        /// </summary>
         /// <param name="onComplete"></param>
         [UsedImplicitly]
-        public static void ShowFormIfRequired( Action onComplete = null )
+        public static void ShowFormIfRequired( Action onComplete )
         {
             Log( $"ShowFormIfRequired {ConsentStatus}" );
 
