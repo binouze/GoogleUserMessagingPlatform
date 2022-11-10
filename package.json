@@ -1,0 +1,10 @@
+{
+  "name": "com.binouze.GoogleUserMessagingPlatform",
+  "version": "0.0.1",
+  "displayName": "GoogleUserMessagingPlatform",
+  "description": "Simple implementation of GoogleUserMessagingPlatform for use in Unity for iOS and Android",
+  "author": {
+    "name": "Benjamin BOUFFIER",
+    "email": "benjamin.bouffier@gmail.com"
+  }
+}
