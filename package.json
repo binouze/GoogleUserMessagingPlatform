@@ -1,8 +1,11 @@
 {
   "name": "com.binouze.googleusermessagingplatform",
   "version": "0.1.0",
+  "unity": "2021.3",
   "displayName": "GoogleUserMessagingPlatform",
   "description": "Simple implementation of GoogleUserMessagingPlatform for use in Unity for iOS and Android.",
+  "changelogUrl": "https://github.com/binouze/GoogleUserMessagingPlatform/releases",
+  "documentationUrl": "https://github.com/binouze/GoogleUserMessagingPlatform",
   "author": {
     "name": "Benjamin BOUFFIER",
     "email": "benjamin.bouffier@gmail.com"
