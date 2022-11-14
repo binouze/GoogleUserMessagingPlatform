@@ -48,6 +48,9 @@ namespace com.binouze
         private static extern void _SetDebugMode(string debugDevice, bool forceReset);
         
         [DllImport( "__Internal")]
+        private static extern void _SetTargetChildren(bool targetChildren);
+        
+        [DllImport( "__Internal")]
         private static extern void _Initialize();
         
         [DllImport( "__Internal")]
@@ -110,11 +113,32 @@ namespace com.binouze
         }
         
         /// <summary>
+        /// set it to true to enable plugin logs
+        /// </summary>
+        /// <param name="targetChildren"></param>
+        [UsedImplicitly]
+        public static void SetTargetChildren( bool targetChildren )
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            cls.CallStatic( "SetTargetChildren", targetChildren );
+
+            #elif UNITY_IOS
+
+            _SetTargetChildren( targetChildren );
+
+            #endif
+        }
+        
+        /// <summary>
         /// Set a callback to listen for consent status change
         /// </summary>
         /// <param name="Listener"></param>
         [UsedImplicitly]
-        public static  void SetOnStatusChangedListener( Action<ConsentStatus> Listener )
+        public static void SetOnStatusChangedListener( Action<ConsentStatus> Listener )
         {
             OnStatusChanged = Listener;
         }

@@ -24,6 +24,7 @@ extern "C"
     
     static bool DebugMode  = false;
     static bool ForceReset = false;
+    static bool TargetChildren = false;
     static NSString * DebugDevice = nil;
     
     // There is no public unity header, need to declare this manually:
@@ -62,6 +63,11 @@ extern "C"
         DebugDevice = [NSString stringWithCString:device encoding:NSUTF8StringEncoding];
         DebugMode   = DebugDevice != nil && [DebugDevice length] > 0;
         ForceReset  = forceReset;
+    }
+    
+    void _SetTargetChildren( bool val )
+    {
+        TargetChildren = val;
     }
     
     void _LoadForm( bool forceShow, bool forceDispatch )
@@ -122,7 +128,7 @@ extern "C"
         // Create a UMPRequestParameters object.
         UMPRequestParameters *parameters = [[UMPRequestParameters alloc] init];
         // Set tag for under age of consent. Here NO means users are not under age.
-        parameters.tagForUnderAgeOfConsent = NO;
+        parameters.tagForUnderAgeOfConsent = TargetChildren;
         
         if( DebugMode )
         {

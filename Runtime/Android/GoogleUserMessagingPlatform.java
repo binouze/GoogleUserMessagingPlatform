@@ -25,6 +25,7 @@ public class GoogleUserMessagingPlatform
     
     private static boolean DebugMode  = false;
     private static boolean ForceReset = false;
+    private static boolean TargetChildren = false;
     private static String DebugDevice = null;
     
     /**
@@ -35,6 +36,11 @@ public class GoogleUserMessagingPlatform
         DebugDevice = device;
         DebugMode   = DebugDevice != null;
         ForceReset  = forceReset;
+    }
+    
+    public static void SetTargetChildren( boolean val ) 
+    {
+        TargetChildren = val;
     }
     
     private static void logInfo( String msg ) 
@@ -93,7 +99,7 @@ public class GoogleUserMessagingPlatform
             // Set tag for underage of consent. Here false means users are not underage.
             params = new ConsentRequestParameters
                 .Builder()
-                .setTagForUnderAgeOfConsent(false)
+                .setTagForUnderAgeOfConsent(TargetChildren)
                 .setConsentDebugSettings(debugSettings)
                 .build();
         }
@@ -102,7 +108,7 @@ public class GoogleUserMessagingPlatform
             // Set tag for underage of consent. Here false means users are not underage.
             params = new ConsentRequestParameters
                 .Builder()
-                .setTagForUnderAgeOfConsent(false)
+                .setTagForUnderAgeOfConsent(TargetChildren)
                 .build();
         }
             

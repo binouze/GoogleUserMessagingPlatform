@@ -1,6 +1,6 @@
 {
   "name": "com.binouze.googleusermessagingplatform",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "unity": "2021.3",
   "displayName": "GoogleUserMessagingPlatform",
   "description": "Simple implementation of GoogleUserMessagingPlatform for use in Unity for iOS and Android.",
