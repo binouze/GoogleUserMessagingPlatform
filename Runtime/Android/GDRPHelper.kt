@@ -5,24 +5,29 @@ import com.unity3d.player.UnityPlayer
 
 public class GDRPHelper
 {
-    public static fun getVendorConsents(): String
+    companion object Factory 
+    {
+       fun create(): GDRPHelper = GDRPHelper()
+    }
+       
+    public fun getVendorConsents(): String
     {
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_VendorConsents", "") ?: ""
     }
-    public static fun getPurposeConsents(): String
+    public fun getPurposeConsents(): String
     {
         
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_PurposeConsents", "") ?: ""
     }
 
-    public static fun isGDPR(): Boolean 
+    public fun isGDPR(): Boolean 
     {
         val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
         val gdpr  = prefs.getInt("IABTCF_gdprApplies", 0)
         return gdpr == 1
     }
     
-    public static fun canShowAds(): Boolean 
+    public fun canShowAds(): Boolean 
     {
         val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
     
@@ -43,7 +48,7 @@ public class GDRPHelper
     
     }
     
-    public static fun canShowPersonalizedAds(): Boolean 
+    public fun canShowPersonalizedAds(): Boolean 
     {
         val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
     
@@ -63,19 +68,19 @@ public class GDRPHelper
     }
     
     // Check if a binary string has a "1" at position "index" (1-based)
-    private static fun hasAttribute(input: String, index: Int): Boolean 
+    private fun hasAttribute(input: String, index: Int): Boolean 
     {
         return input.length >= index && input[index-1] == '1'
     }
     
     // Check if consent is given for a list of purposes
-    private static fun hasConsentFor(purposes: List<Int>, purposeConsent: String): Boolean 
+    private fun hasConsentFor(purposes: List<Int>, purposeConsent: String): Boolean 
     {
         return purposes.all { p -> hasAttribute(purposeConsent, p) }
     }
     
     // Check if a vendor either has consent or legitimate interest for a list of purposes
-    private static fun hasConsentOrLegitimateInterestFor(purposes: List<Int>, purposeConsent: String, purposeLI: String): Boolean 
+    private fun hasConsentOrLegitimateInterestFor(purposes: List<Int>, purposeConsent: String, purposeLI: String): Boolean 
     {
         return purposes.all { p -> hasAttribute(purposeLI, p) || hasAttribute(purposeConsent, p) }
     }
