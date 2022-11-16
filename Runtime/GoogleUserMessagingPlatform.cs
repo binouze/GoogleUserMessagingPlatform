@@ -174,7 +174,19 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool CanShowAds()
         {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetCanShowAds" );
+
+            #elif UNITY_IOS
+
             return _GetCanShowAds();
+
+            #endif
         }
         
         /// <summary>

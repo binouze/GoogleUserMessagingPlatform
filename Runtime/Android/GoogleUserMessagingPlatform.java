@@ -8,6 +8,7 @@ import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
 
 import com.unity3d.player.UnityPlayer;
+import com.binouze.GRPDHelper;
 import android.util.Log;
 
 public class GoogleUserMessagingPlatform
@@ -150,6 +151,14 @@ public class GoogleUserMessagingPlatform
                     logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
                 }
             });
+    }
+    
+    /**
+     * true if user accepted GDPR consent usage necessary to see ads
+     */
+    public static boolean GetCanShowAds()
+    {
+        return GRPDHelper.canShowAds();
     }
     
     /**
