@@ -169,7 +169,7 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// 
+        /// true if user accepted GDPR consent usage necessary to see ads
         /// </summary>
         [UsedImplicitly]
         public static bool CanShowAds()
