@@ -234,18 +234,18 @@ namespace com.binouze
         }
         /// <summary>
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
-        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
+        /// call a callback with true as result if the form has been shown, false if form not shown
         /// </summary>
         /// <param name="onComplete"></param>
         [UsedImplicitly]
-        public static void ShowFormIfRequired( Action onComplete )
+        public static void ShowFormIfRequired( Action<bool> onComplete )
         {
-            Log( $"ShowFormIfRequired {ConsentStatus}" );
+            Log( $"ShowFormIfRequired<bool> {ConsentStatus}" );
 
             if( ConsentStatus == ConsentStatus.REQUIRED )
-                ShowForm( onComplete );
+                ShowForm( () => onComplete?.Invoke( true ) );
             else
-                onComplete?.Invoke();
+                onComplete?.Invoke(false);
         }
 
         /// <summary>
