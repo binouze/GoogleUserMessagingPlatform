@@ -187,6 +187,8 @@ namespace com.binouze
             return _GetCanShowAds();
 
             #endif
+
+            return false;
         }
         
         /// <summary>
