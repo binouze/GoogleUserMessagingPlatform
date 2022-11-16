@@ -1,6 +1,7 @@
-package com.binouze;
+package com.binouze
 
-import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceManager
+import com.unity3d.player.UnityPlayer
 
 public class GDRPHelper
 {

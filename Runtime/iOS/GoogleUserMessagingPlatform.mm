@@ -8,6 +8,7 @@
 #include <UserMessagingPlatform/UserMessagingPlatform.h>
 #import <UnityAppController.h>
 #import "UnityInterface.h"
+#import "UnityFramework/UnityFramework-Swift.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
