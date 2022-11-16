@@ -58,6 +58,9 @@ namespace com.binouze
         
         [DllImport( "__Internal")]
         private static extern bool _IsFormAvailable();
+        
+        [DllImport( "__Internal")]
+        private static extern bool _GetCanShowAds();
         #endif
 
         
@@ -166,6 +169,15 @@ namespace com.binouze
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [UsedImplicitly]
+        public static bool CanShowAds()
+        {
+            return _GetCanShowAds();
+        }
+        
+        /// <summary>
         /// returns true if a form is available
         /// </summary>
         /// <returns></returns>
@@ -222,7 +234,7 @@ namespace com.binouze
             
             #endif
         }
-
+        
         /// <summary>
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
         /// Optionally call a callback when the user close the form (or if the form is not oppenned)

@@ -7,13 +7,12 @@
 
 import Foundation
 
-@objc class GDPRHelper : NSObject
+@objc public class GDPRHelper : NSObject
 {
     @objc public static let shared = GDPRHelper()
     
     @objc public func logVendorConsents() -> String
     {
-        
         return UserDefaults.standard.string(forKey: "IABTCF_VendorConsents") ?? ""
     }
     @objc public func logPurposeConsents() -> String
@@ -36,22 +35,22 @@ import Foundation
     }
 
     // Check if consent is given for a list of purposes
-    @objc public func hasConsentFor(_ purposes: [Int], _ purposeConsent: String, _ hasVendorConsent: Bool) -> Bool
+    @objc public func hasConsentFor(_ purposes: [Int], _ purposeConsent: String) -> Bool
     {
-        return purposes.allSatisfy { i in hasAttribute(input: purposeConsent, index: i) } && hasVendorConsent
+        return purposes.allSatisfy { i in hasAttribute(input: purposeConsent, index: i) }
     }
 
     // Check if a vendor either has consent or legitimate interest for a list of purposes
-    @objc public func hasConsentOrLegitimateInterestFor(_ purposes: [Int], _ purposeConsent: String, _ purposeLI: String, _ hasVendorConsent: Bool, _ hasVendorLI: Bool) -> Bool
+    @objc public func hasConsentOrLegitimateInterestFor(_ purposes: [Int], _ purposeConsent: String, _ purposeLI: String) -> Bool
     {
         return purposes.allSatisfy
         { i in
-            (hasAttribute(input: purposeLI, index: i) && hasVendorLI) ||
-            (hasAttribute(input: purposeConsent, index: i) && hasVendorConsent)
+            hasAttribute(input: purposeLI, index: i) ||
+            hasAttribute(input: purposeConsent, index: i)
         }
     }
 
-    @objc public func canShowAds(vendorID:Int) -> Bool
+    @objc public func canShowAds() -> Bool
     {
         let settings = UserDefaults.standard
         
@@ -63,17 +62,16 @@ import Foundation
         let vendorLI = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
         let purposeLI = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
-        let googleId = vendorID
+        /*let googleId = vendorID
         let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
-        let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)
+        let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)*/
         
         // Minimum required for at least non-personalized ads
-        return hasConsentFor([1], purposeConsent, hasGoogleVendorConsent)
-            && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI, hasGoogleVendorConsent, hasGoogleVendorLI)
+        return hasConsentFor([1], purposeConsent) && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
                              
     }
 
-    @objc public func canShowPersonalizedAds(vendorID:Int) -> Bool
+    @objc public func canShowPersonalizedAds() -> Bool
     {
         let settings = UserDefaults.standard
                 
@@ -86,28 +84,11 @@ import Foundation
         let vendorLI = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
         let purposeLI = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
-        let googleId = vendorID
+        /*let googleId = vendorID
         let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
-        let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)
+        let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)*/
         
-        return hasConsentFor([1,3,4], purposeConsent, hasGoogleVendorConsent)
-            && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI, hasGoogleVendorConsent, hasGoogleVendorLI)
-    }
-
-    @objc public func hasConsent(vendorID:Int) -> Bool
-    {
-        let settings = UserDefaults.standard
-                
-        //https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
-        //https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
-              
-        // required for personalized ads
-        let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
-        let vendorConsent = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
-        
-        let googleId = vendorID
-        let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
-        
-        return hasConsentFor([1,3,4], purposeConsent, hasGoogleVendorConsent)
+        return hasConsentFor([1,3,4], purposeConsent)
+            && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
     }
 }

@@ -53,6 +53,11 @@ extern "C"
     
     // -- EXPOSED TO UNITY -- //
     
+    bool _GetCanShowAds()
+    {
+        return [[GDPRHelper shared] canShowAds];
+    }
+    
     void _EnableDebugLogging( bool enabled )
     {
         IsLogEnabled = enabled;
