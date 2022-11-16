@@ -16,6 +16,15 @@ public class GoogleUserMessagingPlatform
     private static final String  TAG            = "GoogleUserMessagingPlatform";
     private static       boolean loggingEnabled = false;
     
+    private static void SendStatusMessage(String status)
+    {
+        String vc = GRPDHelper.getVendorConsents();
+        String pc = GRPDHelper.getPurposeConsents();
+        
+        Log.i(TAG, TAG+"::SendStatusMessage "+status+" "+vc+" "+pc);
+        UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", status );
+    }
+    
     /**
      * Enables verbose logging
      */
@@ -196,7 +205,7 @@ public class GoogleUserMessagingPlatform
         if( !FormAvailable )
         {
             if( forceShow )
-                UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", "0" );
+                SendStatusMessage( "0" );
                 
             logError("LoadForm FORM NOT AVAILABLE");
             return;
@@ -215,7 +224,7 @@ public class GoogleUserMessagingPlatform
                     logInfo("onConsentFormLoadSuccess " + ConsentStatus);
                     
                     if( sendStatusToUnity )
-                        UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", String.format("%d", consentInformation.getConsentStatus()) );
+                        SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
                     
                     if( forceShow ) 
                     {
@@ -240,7 +249,7 @@ public class GoogleUserMessagingPlatform
                 public void onConsentFormLoadFailure(FormError formError) 
                 {
                     if( forceShow )
-                        UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", "0" );
+                        SendStatusMessage( "0" );
                     
                     // Handle the error.
                     logError("onConsentFormLoadFailure ERROR: "+formError.getMessage());

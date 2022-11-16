@@ -1,19 +1,29 @@
 package com.binouze;
 
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 public class GDRPHelper
 {
+    public static fun getVendorConsents(): String
+    {
+        return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_VendorConsents", "") ?: ""
+    }
+    public static fun getPurposeConsents(): String
+    {
+        
+        return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_PurposeConsents", "") ?: ""
+    }
+
     public static fun isGDPR(): Boolean 
     {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
         val gdpr  = prefs.getInt("IABTCF_gdprApplies", 0)
         return gdpr == 1
     }
     
     public static fun canShowAds(): Boolean 
     {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
     
         //https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
         //https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
@@ -34,7 +44,7 @@ public class GDRPHelper
     
     public static fun canShowPersonalizedAds(): Boolean 
     {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity)
     
         //https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
         //https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841

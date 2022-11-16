@@ -11,11 +11,11 @@ import Foundation
 {
     @objc public static let shared = GDPRHelper()
     
-    @objc public func logVendorConsents() -> String
+    @objc public func getVendorConsents() -> String
     {
         return UserDefaults.standard.string(forKey: "IABTCF_VendorConsents") ?? ""
     }
-    @objc public func logPurposeConsents() -> String
+    @objc public func getPurposeConsents() -> String
     {
         
         return UserDefaults.standard.string(forKey: "IABTCF_PurposeConsents") ?? ""
