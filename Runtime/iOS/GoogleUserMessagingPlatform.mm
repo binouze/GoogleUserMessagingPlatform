@@ -49,9 +49,7 @@ extern "C"
         NSString* NSStatus    = [NSString stringWithFormat:@"%d",status];
         const char* strStatus = (const char*) [NSStatus UTF8String];
         
-        NSString* vc = [[GDPRHelper shared] getVendorConsents];
-        NSString* pc = [[GDPRHelper shared] getPurposeConsents];
-        NSLog(@"[GoogleUserMessagingPlatform]: DispatchStatus %@ %@ %@", NSStatus, vc, pc);
+        NSLog(@"[GoogleUserMessagingPlatform]: DispatchStatus %@", NSStatus);
         
         UnitySendMessage( "GoogleUserMessagingPlatform", "OnFormDissmissedMessage", strStatus );
     }
@@ -60,6 +58,10 @@ extern "C"
     
     bool _GetCanShowAds()
     {
+        NSString* vc = [[GDPRHelper shared] getVendorConsents];
+        NSString* pc = [[GDPRHelper shared] getPurposeConsents];
+        Log(@"GetCanShowAds %@ %@", pc, vc);
+    
         return [[GDPRHelper shared] canShowAds];
     }
     

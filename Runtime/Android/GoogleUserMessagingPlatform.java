@@ -18,10 +18,7 @@ public class GoogleUserMessagingPlatform
     
     private static void SendStatusMessage(String status)
     {
-        String vc = GDRPHelper.getVendorConsents();
-        String pc = GDRPHelper.getPurposeConsents();
-        
-        Log.i(TAG, TAG+"::SendStatusMessage "+status+" "+vc+" "+pc);
+        logInfo("SendStatusMessage "+status);
         UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", status );
     }
     
@@ -167,6 +164,10 @@ public class GoogleUserMessagingPlatform
      */
     public static boolean GetCanShowAds()
     {
+        String vc = GDRPHelper.getVendorConsents();
+        String pc = GDRPHelper.getPurposeConsents();
+        logInfo("GetCanShowAds "+pc+" "+vc);
+        
         return GDRPHelper.canShowAds();
     }
     
