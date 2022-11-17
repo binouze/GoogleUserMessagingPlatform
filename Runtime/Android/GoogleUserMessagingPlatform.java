@@ -8,7 +8,7 @@ import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
 
 import com.unity3d.player.UnityPlayer;
-import com.binouze.GRPDHelper;
+import com.binouze.GDRPHelper;
 import android.util.Log;
 
 public class GoogleUserMessagingPlatform
@@ -18,8 +18,8 @@ public class GoogleUserMessagingPlatform
     
     private static void SendStatusMessage(String status)
     {
-        String vc = GRPDHelper.getVendorConsents();
-        String pc = GRPDHelper.getPurposeConsents();
+        String vc = GDRPHelper.getVendorConsents();
+        String pc = GDRPHelper.getPurposeConsents();
         
         Log.i(TAG, TAG+"::SendStatusMessage "+status+" "+vc+" "+pc);
         UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", status );
@@ -167,7 +167,7 @@ public class GoogleUserMessagingPlatform
      */
     public static boolean GetCanShowAds()
     {
-        return GRPDHelper.canShowAds();
+        return GDRPHelper.canShowAds();
     }
     
     /**
