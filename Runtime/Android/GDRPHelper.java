@@ -1,6 +1,7 @@
 package com.binouze;
 
 import androidx.preference.PreferenceManager;
+import android.content.SharedPreferences;
 import com.unity3d.player.UnityPlayer;
 import java.util.*;
 
@@ -60,7 +61,7 @@ public class GDRPHelper
     // Check if a binary string has a "1" at position "index" (1-based)
     private static Boolean hasAttribute( String input, Integer index )
     {
-        return input.length >= index && input[index-1] == '1';
+        return input.length() >= index && input.charAt(index-1) == '1';
     }
     
     // Check if consent is given for a list of purposes
