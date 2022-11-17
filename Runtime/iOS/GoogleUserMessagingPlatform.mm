@@ -58,9 +58,10 @@ extern "C"
     
     bool _GetCanShowAds()
     {
-        NSString* vc = [[GDPRHelper shared] getVendorConsents];
-        NSString* pc = [[GDPRHelper shared] getPurposeConsents];
-        Log(@"GetCanShowAds %@ %@", pc, vc);
+        NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+        NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+        NSString* log = [NSString stringWithFormat:@"GetCanShowAds %@ %@", pc, vc];
+        Log(log);
     
         return [[GDPRHelper shared] canShowAds];
     }
