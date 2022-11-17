@@ -168,7 +168,7 @@ public class GoogleUserMessagingPlatform
         String pc = GDRPHelper.getPurposeConsents();
         logInfo("GetCanShowAds "+pc+" "+vc);
         
-        return GDRPHelper.canShowAds();
+        return !GDRPHelper.isGDPR() || GDRPHelper.canShowAds();
     }
     
     /**

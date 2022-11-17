@@ -63,7 +63,7 @@ extern "C"
         NSString* log = [NSString stringWithFormat:@"GetCanShowAds %@ %@", pc, vc];
         Log(log);
     
-        return [[GDPRHelper shared] canShowAds];
+        return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] canShowAds];
     }
     
     void _EnableDebugLogging( bool enabled )
