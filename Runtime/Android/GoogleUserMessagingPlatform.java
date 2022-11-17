@@ -171,6 +171,19 @@ public class GoogleUserMessagingPlatform
         return !GDRPHelper.isGDPR() || GDRPHelper.canShowAds();
     }
     
+   
+    /**
+     * true if user accepted GDPR consent usage necessary to see ads
+     */
+    public static boolean GetGDPRRequired()
+    {
+        String vc = GDRPHelper.getVendorConsents();
+        String pc = GDRPHelper.getPurposeConsents();
+        logInfo("GetGDPRRequired "+pc+" "+vc);
+        
+        return GDRPHelper.isGDPR();
+    }
+    
     /**
      * true if a form is available to be shown
      */

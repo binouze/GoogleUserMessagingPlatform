@@ -61,6 +61,9 @@ namespace com.binouze
         
         [DllImport( "__Internal")]
         private static extern bool _GetCanShowAds();
+        
+        [DllImport( "__Internal")]
+        private static extern bool _GetGDPRRequired();
         #endif
 
         
@@ -185,6 +188,29 @@ namespace com.binouze
             #elif UNITY_IOS
 
             return _GetCanShowAds();
+
+            #endif
+
+            return false;
+        }
+        
+        /// <summary>
+        /// true if user accepted GDPR consent usage necessary to see ads
+        /// </summary>
+        [UsedImplicitly]
+        public static bool IsGDPRRequired()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetGDPRRequired" );
+
+            #elif UNITY_IOS
+
+            return _GetGDPRRequired();
 
             #endif
 
