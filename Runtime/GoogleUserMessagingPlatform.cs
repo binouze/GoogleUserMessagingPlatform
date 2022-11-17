@@ -307,11 +307,12 @@ namespace com.binouze
         [UsedImplicitly]
         public void OnFormDissmissedMessage( string statusString )
         {
+            Log( $"OnFormDissmissedMessage {statusString}" );
+            
             var statusint = String2Int( statusString );
             ConsentStatus = Enum.IsDefined( typeof(ConsentStatus), statusint ) ? (ConsentStatus)statusint : ConsentStatus.UNKNOWN;
 
             OnStatusChanged?.Invoke( ConsentStatus );
-            OnStatusChanged = null;
             
             OnFormClosed?.Invoke();
             OnFormClosed = null;
