@@ -4,6 +4,8 @@ import androidx.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import com.unity3d.player.UnityPlayer;
 import java.util.*;
+import java.lang.*;
+import android.util.Log;
 
 public class GDRPHelper
 {
@@ -102,7 +104,7 @@ public class GDRPHelper
         timestamp *= 100;
 
         // compare with current timestamp to get age in days
-        int daysAgo = (System.currentTimeMillis() - timestamp) / (1000*60*60*24);
+        long daysAgo = (System.currentTimeMillis() - timestamp) / (1000*60*60*24);
         
         // logging debug infos
         Log.i(TAG, TAG+":: deleteOutdatedTCString timestamp = " + timestamp + " - daysAgo = " + daysAgo);

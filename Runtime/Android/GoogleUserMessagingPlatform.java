@@ -94,7 +94,7 @@ public class GoogleUserMessagingPlatform
         
         logInfo("Initialize");
     
-        bool deleted = GDRPHelper.deleteOutdatedTCString();
+        boolean deleted = GDRPHelper.deleteOutdatedTCString();
         if( deleted )
             logInfo("deleted outdated TCF String");
             
