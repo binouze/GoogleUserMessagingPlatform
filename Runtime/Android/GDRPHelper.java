@@ -7,6 +7,8 @@ import java.util.*;
 
 public class GDRPHelper
 {
+    private static final String TAG = "GoogleUserMessagingPlatform::GDRPHelper";
+
     public static String getVendorConsents()
     {
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_VendorConsents", "");
@@ -74,5 +76,44 @@ public class GDRPHelper
     private static Boolean hasConsentOrLegitimateInterestFor( List<Integer> purposes, String purposeConsent, String purposeLI )
     {
         return purposes.stream().allMatch( p -> hasAttribute(purposeLI, p) || hasAttribute(purposeConsent, p) );
+    }
+    
+    // this function deletes the IABTCF_TCString if the timestamp is too old (365 days or more)
+    public static boolean deleteOutdatedTCString() 
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+
+        // get IABTCF string containing creation timestamp;
+        // fall back to string encoding timestamp 0 if nothing is currently stored
+        String tcString      = prefs.getString("IABTCF_TCString", "AAAAAAA");
+        String base64        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+        String dateSubstring = tcString.subSequence(1,7).toString();
+
+        //interpret date substring as Base64-encoded integer value
+        long timestamp = 0;
+        for( int i=0; i<dateSubstring.length(); i++ ) 
+        {
+            char c    = dateSubstring.charAt(i);
+            int value = base64.indexOf(c);
+            timestamp = timestamp * 64 + value;
+        }
+
+        // timestamp is given is deci-seconds, convert to milliseconds
+        timestamp *= 100;
+
+        // compare with current timestamp to get age in days
+        int daysAgo = (System.currentTimeMillis() - timestamp) / (1000*60*60*24);
+        
+        // logging debug infos
+        Log.i(TAG, TAG+":: deleteOutdatedTCString timestamp = " + timestamp + " - daysAgo = " + daysAgo);
+        
+        //delete TC string if age is over a year
+        if( daysAgo > 365 ) 
+        {
+            prefs.edit().remove("IABTCF_TCString").apply();
+            return true;
+        }
+        
+        return false;
     }
 }
