@@ -86,7 +86,7 @@ public class GDRPHelper
         // get IABTCF string containing creation timestamp;
         // fall back to string encoding timestamp 0 if nothing is currently stored
         String tcString      = prefs.getString("IABTCF_TCString", "AAAAAAA");
-        String base64        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+        String base64        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         String dateSubstring = tcString.subSequence(1,7).toString();
 
         //interpret date substring as Base64-encoded integer value
