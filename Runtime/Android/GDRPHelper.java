@@ -104,10 +104,11 @@ public class GDRPHelper
         timestamp *= 100;
 
         // compare with current timestamp to get age in days
-        long daysAgo = (System.currentTimeMillis() - timestamp) / (1000*60*60*24);
+        long now     = System.currentTimeMillis();
+        long daysAgo = (now - timestamp) / (1000*60*60*24);
         
         // logging debug infos
-        Log.i(TAG, TAG+":: deleteOutdatedTCString timestamp = " + timestamp + " - daysAgo = " + daysAgo);
+        Log.i(TAG, TAG+":: deleteOutdatedTCString now = " + now + " - timestamp = " + timestamp + " - daysAgo = " + daysAgo);
         
         //delete TC string if age is over a year
         if( daysAgo > 365 ) 

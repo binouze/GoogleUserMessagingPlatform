@@ -148,6 +148,10 @@ extern "C"
     
         Log(@"Initialize");
     
+        bool deleted = [[GDPRHelper shared] deleteOutdatedTCString];
+        if( deleted )
+            Log(@"deleted outdated TCF String");
+    
         // Create a UMPRequestParameters object.
         UMPRequestParameters *parameters = [[UMPRequestParameters alloc] init];
         // Set tag for under age of consent. Here NO means users are not under age.

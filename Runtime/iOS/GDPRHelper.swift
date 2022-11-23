@@ -91,4 +91,66 @@ import Foundation
         return hasConsentFor([1,3,4], purposeConsent)
             && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
     }
+    
+    @objc public func deleteOutdatedTCString() -> Bool
+    {
+        let settings = UserDefaults.standard
+        
+        // get IABTCF string containing creation timestamp;
+        // fall back to string encoding timestamp 0 if nothing is currently stored
+        let tcString      = settings.string(forKey: "IABTCF_TCString") ?? "AAAAAAA";
+        let base64        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        
+        // le substring swift... ils auraient pu faire plus simple quand meme !
+        let start         = tcString.index(tcString.startIndex, offsetBy: 1)
+        let end           = tcString.index(tcString.startIndex, offsetBy: 7)
+        let range         = start..<end
+        let dateSubstring = String(tcString[range]);
+        
+        // interpret date substring as Base64-encoded integer value
+        var timestamp:Int64 = 0;
+        for c in dateSubstring
+        {
+            let value = Int64(indexOf(base64, c));
+            timestamp = timestamp * 64 + value;
+        }
+
+        // timestamp is given is deci-seconds, convert to milliseconds
+        timestamp *= 100;
+
+        // compare with current timestamp to get age in days
+        let now     = Date().millisecondsSince1970;
+        let daysAgo = (now - timestamp) / (1000*60*60*24);
+        
+        // logging debug infos
+        print("GDPRHelper:: deleteOutdatedTCString now = \(now) - timestamp = \(timestamp) - daysAgo = \(daysAgo)")
+        
+        // delete TC string if age is over a year
+        if( daysAgo > 365 )
+        {
+            settings.set("", forKey: "IABTCF_TCString")
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private func indexOf( _ str:String, _ c:Character ) -> Int
+    {
+        if let firstIndex = str.firstIndex(of: c) {
+            let index = str.distance(from: str.startIndex, to: firstIndex)
+            return index;
+        }
+        return -1;
+    }
+}
+
+extension Date {
+    var millisecondsSince1970: Int64 {
+        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
 }
