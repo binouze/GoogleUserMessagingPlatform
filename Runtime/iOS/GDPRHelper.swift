@@ -101,11 +101,15 @@ import Foundation
         let tcString      = settings.string(forKey: "IABTCF_TCString") ?? "AAAAAAA";
         let base64        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         
-        // le substring swift... ils auraient pu faire plus simple quand meme !
-        let start         = tcString.index(tcString.startIndex, offsetBy: 1)
-        let end           = tcString.index(tcString.startIndex, offsetBy: 7)
-        let range         = start..<end
-        let dateSubstring = String(tcString[range]);
+        var dateSubstring = "";
+        if( tcString.count >= 7 )
+        {
+            // le substring swift... ils auraient pu faire plus simple quand meme !
+            let start     = tcString.index(tcString.startIndex, offsetBy: 1)
+            let end       = tcString.index(tcString.startIndex, offsetBy: 7)
+            let range     = start..<end
+            dateSubstring = String(tcString[range]);
+        }
         
         // interpret date substring as Base64-encoded integer value
         var timestamp:Int64 = 0;
