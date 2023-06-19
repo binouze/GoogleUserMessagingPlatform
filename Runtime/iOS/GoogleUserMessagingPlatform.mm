@@ -81,7 +81,7 @@ extern "C"
             Log(log);
         }
     
-        return [[GDPRHelper shared] isVendorAutorized:vendorID];
+        return [[GDPRHelper shared] isVendorAutorizedWithVendorID:vendorID];
     }
     
     bool _GetGDPRRequired()
