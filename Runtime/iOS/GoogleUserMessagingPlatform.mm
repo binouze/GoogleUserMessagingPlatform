@@ -58,30 +58,42 @@ extern "C"
     
     bool _GetCanShowAds()
     {
-        NSString* vc  = [[GDPRHelper shared] getVendorConsents];
-        NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
-        NSString* log = [NSString stringWithFormat:@"GetCanShowAds %@ %@", pc, vc];
-        Log(log);
+        if( DebugMode )
+        {
+            NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* ac  = [[GDPRHelper shared] getAddtlConsent];
+            NSString* log = [NSString stringWithFormat:@"GetCanShowAds %@ %@ %@", pc, vc, ac];
+            Log(log);
+        }
     
         return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] canShowAds];
     }
     
     bool _GetConsentForVendor(int vendorID)
     {
-        NSString* vc  = [[GDPRHelper shared] getVendorConsents];
-        NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
-        NSString* log = [NSString stringWithFormat:@"GetGDPRRequired %@ %@", pc, vc];
-        Log(log);
+        if( DebugMode )
+        {
+            NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* ac  = [[GDPRHelper shared] getAddtlConsent];
+            NSString* log = [NSString stringWithFormat:@"GetConsentForVendor %@ %@ %@", pc, vc, ac];
+            Log(log);
+        }
     
         return [[GDPRHelper shared] isVendorAutorized:vendorID];
     }
     
     bool _GetGDPRRequired()
     {
-        NSString* vc  = [[GDPRHelper shared] getVendorConsents];
-        NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
-        NSString* log = [NSString stringWithFormat:@"GetGDPRRequired %@ %@", pc, vc];
-        Log(log);
+        if( DebugMode )
+        {
+            NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* ac  = [[GDPRHelper shared] getAddtlConsent];
+            NSString* log = [NSString stringWithFormat:@"GetGDPRRequired %@ %@ %@", pc, vc, ac];
+            Log(log);
+        }
     
         return [[GDPRHelper shared] isGDPR];
     }

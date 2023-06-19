@@ -17,8 +17,11 @@ import Foundation
     }
     @objc public func getPurposeConsents() -> String
     {
-        
         return UserDefaults.standard.string(forKey: "IABTCF_PurposeConsents") ?? ""
+    }
+    @objc public func getAddtlConsent() -> String
+    {
+        return UserDefaults.standard.string(forKey: "IABTCF_AddtlConsent") ?? ""
     }
     
     @objc public func isGDPR() -> Bool

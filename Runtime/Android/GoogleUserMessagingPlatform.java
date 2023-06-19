@@ -172,7 +172,8 @@ public class GoogleUserMessagingPlatform
         {
             String vc = GDRPHelper.getVendorConsents();
             String pc = GDRPHelper.getPurposeConsents();
-            logInfo("GetCanShowAds "+pc+" "+vc);
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetCanShowAds "+pc+" "+vc+" "+ac);
         }
         
         return !GDRPHelper.isGDPR() || GDRPHelper.canShowAds();
@@ -188,7 +189,8 @@ public class GoogleUserMessagingPlatform
         {
             String vc = GDRPHelper.getVendorConsents();
             String pc = GDRPHelper.getPurposeConsents();
-            logInfo("GetGDPRRequired "+pc+" "+vc);
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetGDPRRequired "+pc+" "+vc+" "+ac);
         }
         
         return GDRPHelper.isGDPR();
@@ -203,7 +205,8 @@ public class GoogleUserMessagingPlatform
         {
             String vc = GDRPHelper.getVendorConsents();
             String pc = GDRPHelper.getPurposeConsents();
-            logInfo("GetGDPRRequired "+pc+" "+vc);
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetGDPRRequired "+pc+" "+vc+" "+ac);
         }
         
         return GDRPHelper.isGDPR();
@@ -218,7 +221,8 @@ public class GoogleUserMessagingPlatform
         {
             String vc = GDRPHelper.getVendorConsents();
             String pc = GDRPHelper.getPurposeConsents();
-            logInfo("GetConsentForVendor "+pc+" "+vc);
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetConsentForVendor "+pc+" "+vc+" "+ac);
         }
         
         return GDRPHelper.isVendorAutorized(vendorID);

@@ -10,6 +10,7 @@ import android.util.Log;
 public class GDRPHelper
 {
     private static final String TAG = "GoogleUserMessagingPlatform::GDRPHelper";
+    //IABTCF_AddtlConsent
 
     public static String getVendorConsents()
     {
@@ -17,8 +18,11 @@ public class GDRPHelper
     }
     public static String getPurposeConsents()
     {
-        
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_PurposeConsents", "");
+    }
+    public static String getAddtlConsent()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_AddtlConsent", "");
     }
 
     public static Boolean isGDPR()
