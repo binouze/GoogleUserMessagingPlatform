@@ -183,6 +183,8 @@ namespace com.binouze
         [UsedImplicitly]
         public static void Initialize()
         {
+            Log( "Initialize" );
+            
             SetInstance();
             
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -307,7 +309,8 @@ namespace com.binouze
         /// return true if the form must be shown for the user
         /// </summary>
         /// <returns></returns>
-        public static bool IsFormRequired( )
+        [UsedImplicitly]
+        public static bool IsFormRequired()
         {
             Log( $"IsFormRequired {ConsentStatus}" );
             return ConsentStatus == ConsentStatus.REQUIRED;
