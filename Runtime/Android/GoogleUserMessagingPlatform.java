@@ -52,7 +52,7 @@ public class GoogleUserMessagingPlatform
     
     private static void logInfo( String msg ) 
     {
-        if( loggingEnabled ) 
+        if( loggingEnabled || DebugMode ) 
         {
             Log.i(TAG, TAG+"::"+msg);
         }
@@ -216,6 +216,22 @@ public class GoogleUserMessagingPlatform
         }
         
         return GDRPHelper.isVendorAutorized(vendorID);
+    }
+    
+    /**
+     * recuperer le status de consentement pour un vendor par son ID
+     */
+    public static boolean GetConsentForAdditional(Integer vendorID)
+    {
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetConsentForAdditional "+pc+" "+vc+" "+ac);
+        }
+        
+        return GDRPHelper.isAddtlConsentAutorized(vendorID);
     }
     
     /**

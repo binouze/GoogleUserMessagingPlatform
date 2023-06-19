@@ -78,6 +78,18 @@ public class GDRPHelper
         return hasAttribute( vendorConsent, vendorID );
     }
     
+    /**
+     * Savoir si un vendeur avec un ID specifie a ete autorise par l'utilisateur
+     * @see https://iabeurope.eu/vendor-list-tcf/ for vendorList IDs
+     */
+    public static Boolean isAddtlConsentAutorized( Integer externalID )
+    {
+        String strId            = externalID.toString();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+        String addtlConsent     = prefs.getString("IABTCF_AddtlConsent","");
+        return addtlConsent.contains(strId);
+    }
+    
     // Check if a binary string has a "1" at position "index" (1-based)
     private static Boolean hasAttribute( String input, Integer index )
     {

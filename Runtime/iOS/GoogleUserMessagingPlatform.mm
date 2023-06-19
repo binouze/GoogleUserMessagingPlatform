@@ -84,6 +84,20 @@ extern "C"
         return [[GDPRHelper shared] isVendorAutorizedWithVendorID:vendorID];
     }
     
+    bool _GetConsentForExternal(int externalID)
+    {
+        if( DebugMode )
+        {
+            NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* ac  = [[GDPRHelper shared] getAddtlConsent];
+            NSString* log = [NSString stringWithFormat:@"_GetConsentForExternal %@ %@ %@", pc, vc, ac];
+            Log(log);
+        }
+    
+        return [[GDPRHelper shared] isExternalAutorizedWithExternalID:externalID];
+    }
+    
     bool _GetGDPRRequired()
     {
         if( DebugMode )

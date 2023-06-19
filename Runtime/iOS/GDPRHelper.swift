@@ -104,6 +104,15 @@ import Foundation
         return hasAttribute(input:vendorConsent, index:vendorID)
     }
     
+    @objc public func isExternalAutorized(externalID:Int) -> Bool
+    {
+        let strId        = String(externalID)
+        let settings     = UserDefaults.standard
+        let addtlConsent = settings.string(forKey: "IABTCF_AddtlConsent") ?? ""
+        
+        return addtlConsent.contains(strId)
+    }
+    
     @objc public func deleteOutdatedTCString() -> Bool
     {
         let settings = UserDefaults.standard

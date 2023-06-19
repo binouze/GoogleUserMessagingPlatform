@@ -36,6 +36,15 @@ namespace com.binouze
         Google   = 755
     }
     
+    public enum ExternalIds
+    {
+        UnityAds = 3234,
+        AdMost  = 2900,
+        AppLovin   = 1301,
+        Chartboost = 2898,
+        Singular = 1046
+    }
+    
     public class GoogleUserMessagingPlatform : MonoBehaviour
     {
         private const string AndroidClass = "com.binouze.GoogleUserMessagingPlatform";
@@ -74,6 +83,9 @@ namespace com.binouze
         
         [DllImport( "__Internal")]
         private static extern bool _GetConsentForVendor(int vendorID);
+        
+        [DllImport( "__Internal")]
+        private static extern bool _GetConsentForAdditional(int externalID);
         
         #endif
 
@@ -163,6 +175,55 @@ namespace com.binouze
             #elif UNITY_IOS
 
             return _GetConsentForVendor( (int)vendorID );
+
+            #endif
+        }
+        public static bool GetConsentForVendor( int vendorID )
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetConsentForVendor", vendorID );
+
+            #elif UNITY_IOS
+
+            return _GetConsentForVendor( vendorID );
+
+            #endif
+        }
+        
+        public static bool GetConsentForAdditional( ExternalIds vendorID )
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetConsentForAdditional", (int)vendorID );
+
+            #elif UNITY_IOS
+
+            return _GetConsentForAdditional( (int)vendorID );
+
+            #endif
+        }
+        public static bool GetConsentForAdditional( int vendorID )
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetConsentForAdditional", vendorID );
+
+            #elif UNITY_IOS
+
+            return _GetConsentForAdditional( vendorID );
 
             #endif
         }
