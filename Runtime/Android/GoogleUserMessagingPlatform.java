@@ -101,18 +101,36 @@ public class GoogleUserMessagingPlatform
         ConsentRequestParameters params;
         if( DebugMode )
         {
-            ConsentDebugSettings debugSettings = new ConsentDebugSettings
-                .Builder( UnityPlayer.currentActivity )
-                .setDebugGeography( ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA )
-                .addTestDeviceHashedId( DebugDevice )
-                .build();
-                
-            // Set tag for underage of consent. Here false means users are not underage.
-            params = new ConsentRequestParameters
-                .Builder()
-                .setTagForUnderAgeOfConsent(TargetChildren)
-                .setConsentDebugSettings(debugSettings)
-                .build();
+            if( DebugDevice == "" ) // vide pour la premiere fois, le sdk java loggera donc l'id de device a utiliser
+            {
+                ConsentDebugSettings debugSettings = new ConsentDebugSettings
+                    .Builder( UnityPlayer.currentActivity )
+                    .setDebugGeography( ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA )
+                    //.addTestDeviceHashedId( DebugDevice )
+                    .build();
+                    
+                // Set tag for underage of consent. Here false means users are not underage.
+                params = new ConsentRequestParameters
+                    .Builder()
+                    .setTagForUnderAgeOfConsent(TargetChildren)
+                    .setConsentDebugSettings(debugSettings)
+                    .build();
+            }
+            else
+            {
+                ConsentDebugSettings debugSettings = new ConsentDebugSettings
+                    .Builder( UnityPlayer.currentActivity )
+                    .setDebugGeography( ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA )
+                    .addTestDeviceHashedId( DebugDevice )
+                    .build();
+                    
+                // Set tag for underage of consent. Here false means users are not underage.
+                params = new ConsentRequestParameters
+                    .Builder()
+                    .setTagForUnderAgeOfConsent(TargetChildren)
+                    .setConsentDebugSettings(debugSettings)
+                    .build();
+            }
         }
         else
         {
