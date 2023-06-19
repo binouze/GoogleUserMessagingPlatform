@@ -73,7 +73,8 @@ public class GDRPHelper
      */
     public static Boolean isVendorAutorized( Integer vendorID )
     {
-        String vendorConsent = prefs.getString("IABTCF_VendorConsents","");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+        String vendorConsent    = prefs.getString("IABTCF_VendorConsents","");
         return hasAttribute( vendorConsent, vendorID );
     }
     

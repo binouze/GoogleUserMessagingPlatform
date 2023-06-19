@@ -98,8 +98,7 @@ import Foundation
     
     @objc public func isVendorAutorized(vendorID:Int) -> Bool
     {
-        let settings = UserDefaults.standard
-                
+        let settings      = UserDefaults.standard
         let vendorConsent = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
         
         return hasAttribute(purposeConsent, vendorID)
