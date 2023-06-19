@@ -158,11 +158,11 @@ namespace com.binouze
             #elif UNITY_ANDROID
 
             using var cls = new AndroidJavaClass( AndroidClass );
-            return cls.CallStatic<bool>( "GetConsentForVendor", vendorID );
+            return cls.CallStatic<bool>( "GetConsentForVendor", (int)vendorID );
 
             #elif UNITY_IOS
 
-            return _GetConsentForVendor( vendorID );
+            return _GetConsentForVendor( (int)vendorID );
 
             #endif
         }
