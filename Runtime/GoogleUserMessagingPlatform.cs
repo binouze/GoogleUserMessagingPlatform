@@ -304,6 +304,16 @@ namespace com.binouze
         }
         
         /// <summary>
+        /// return true if the form must be shown for the user
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsFormRequired( )
+        {
+            Log( $"IsFormRequired {ConsentStatus}" );
+            return ConsentStatus == ConsentStatus.REQUIRED;
+        }
+
+        /// <summary>
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
         /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
