@@ -66,6 +66,16 @@ extern "C"
         return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] canShowAds];
     }
     
+    bool _GetConsentForVendor(int vendorID)
+    {
+        NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+        NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+        NSString* log = [NSString stringWithFormat:@"GetGDPRRequired %@ %@", pc, vc];
+        Log(log);
+    
+        return [[GDPRHelper shared] isVendorAutorized:vendorID];
+    }
+    
     bool _GetGDPRRequired()
     {
         NSString* vc  = [[GDPRHelper shared] getVendorConsents];

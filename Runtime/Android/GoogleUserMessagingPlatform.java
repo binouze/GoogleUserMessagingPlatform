@@ -168,9 +168,12 @@ public class GoogleUserMessagingPlatform
      */
     public static boolean GetCanShowAds()
     {
-        String vc = GDRPHelper.getVendorConsents();
-        String pc = GDRPHelper.getPurposeConsents();
-        logInfo("GetCanShowAds "+pc+" "+vc);
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetCanShowAds "+pc+" "+vc);
+        }
         
         return !GDRPHelper.isGDPR() || GDRPHelper.canShowAds();
     }
@@ -181,11 +184,44 @@ public class GoogleUserMessagingPlatform
      */
     public static boolean GetGDPRRequired()
     {
-        String vc = GDRPHelper.getVendorConsents();
-        String pc = GDRPHelper.getPurposeConsents();
-        logInfo("GetGDPRRequired "+pc+" "+vc);
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetGDPRRequired "+pc+" "+vc);
+        }
         
         return GDRPHelper.isGDPR();
+    }
+    
+    /**
+     * true if user accepted GDPR consent usage necessary to see ads
+     */
+    public static boolean GetGDPRRequired()
+    {
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetGDPRRequired "+pc+" "+vc);
+        }
+        
+        return GDRPHelper.isGDPR();
+    }
+    
+    /**
+     * recuperer le status de consentement pour un vendor par son ID
+     */
+    public static boolean GetConsentForVendor(Integer vendorID)
+    {
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetConsentForVendor "+pc+" "+vc);
+        }
+        
+        return GDRPHelper.isVendorAutorized(vendorID);
     }
     
     /**

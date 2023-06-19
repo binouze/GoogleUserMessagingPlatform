@@ -24,7 +24,7 @@ import Foundation
     @objc public func isGDPR() -> Bool
     {
         let settings = UserDefaults.standard
-        let gdpr = settings.integer(forKey: "IABTCF_gdprApplies")
+        let gdpr     = settings.integer(forKey: "IABTCF_gdprApplies") ?? 0
         return gdpr == 1
     }
 
@@ -58,16 +58,17 @@ import Foundation
         //https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
         
         let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
-        let vendorConsent = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
-        let vendorLI = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
-        let purposeLI = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
+        let vendorConsent  = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
+        let vendorLI       = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
+        let purposeLI      = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
         /*let googleId = vendorID
         let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
         let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)*/
         
         // Minimum required for at least non-personalized ads
-        return hasConsentFor([1], purposeConsent) && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
+        return hasConsentFor([1], purposeConsent) && 
+               hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
                              
     }
 
@@ -80,16 +81,25 @@ import Foundation
               
         // required for personalized ads
         let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
-        let vendorConsent = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
-        let vendorLI = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
-        let purposeLI = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
+        let vendorConsent  = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
+        let vendorLI       = settings.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
+        let purposeLI      = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
         /*let googleId = vendorID
         let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
         let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)*/
         
-        return hasConsentFor([1,3,4], purposeConsent)
-            && hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
+        return hasAttribute([1,3,4], purposeConsent) &&
+               hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
+    }
+    
+    @objc public func isVendorAutorized(vendorID:Int) -> Bool
+    {
+        let settings = UserDefaults.standard
+                
+        let vendorConsent = settings.string(forKey: "IABTCF_VendorConsents") ?? ""
+        
+        return hasAttribute(purposeConsent, vendorID)
     }
     
     @objc public func deleteOutdatedTCString() -> Bool

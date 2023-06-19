@@ -28,6 +28,13 @@ namespace com.binouze
         UNKNOWN      = 0
     }
     #endif
+
+    public enum VendorsIds
+    {
+        AdColony = 458,
+        Liftoff  = 667,
+        Google   = 755
+    }
     
     public class GoogleUserMessagingPlatform : MonoBehaviour
     {
@@ -64,6 +71,10 @@ namespace com.binouze
         
         [DllImport( "__Internal")]
         private static extern bool _GetGDPRRequired();
+        
+        [DllImport( "__Internal")]
+        private static extern bool _GetConsentForVendor(int vendorID);
+        
         #endif
 
         
@@ -135,6 +146,23 @@ namespace com.binouze
             #elif UNITY_IOS
 
             _SetTargetChildren( targetChildren );
+
+            #endif
+        }
+
+        public static bool GetConsentForVendor( VendorsIds vendorID )
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetConsentForVendor", vendorID );
+
+            #elif UNITY_IOS
+
+            return _GetConsentForVendor( vendorID );
 
             #endif
         }

@@ -35,6 +35,7 @@ public class GDRPHelper
     
         //https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
         //https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
+        // vendor id list: https://iabeurope.eu/vendor-list-tcf/
     
         String purposeConsent = prefs.getString("IABTCF_PurposeConsents", "");
         String vendorConsent  = prefs.getString("IABTCF_VendorConsents","");
@@ -60,6 +61,16 @@ public class GDRPHelper
     
         return hasConsentFor( Arrays.asList(1,3,4), purposeConsent ) && 
                hasConsentOrLegitimateInterestFor( Arrays.asList(2,7,9,10), purposeConsent, purposeLI );
+    }
+    
+    /**
+     * Savoir si un vendeur avec un ID specifie a ete autorise par l'utilisateur
+     * @see https://iabeurope.eu/vendor-list-tcf/ for vendorList IDs
+     */
+    public static Boolean isVendorAutorized( Integer vendorID )
+    {
+        String vendorConsent = prefs.getString("IABTCF_VendorConsents","");
+        return hasAttribute( vendorConsent, vendorID );
     }
     
     // Check if a binary string has a "1" at position "index" (1-based)
