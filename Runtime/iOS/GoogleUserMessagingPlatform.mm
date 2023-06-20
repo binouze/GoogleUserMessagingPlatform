@@ -56,6 +56,13 @@ extern "C"
     
     // -- EXPOSED TO UNITY -- //
     
+    char* _GetPurposeConsent()
+    {
+        NSString* NSPurpose    = [[GDPRHelper shared] getPurposeConsents];
+        const char* strPurpose = (const char*) [NSPurpose UTF8String];
+        return strPurpose
+    } 
+    
     bool _GetCanShowAds()
     {
         if( DebugMode )

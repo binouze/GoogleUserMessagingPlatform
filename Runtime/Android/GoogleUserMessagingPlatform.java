@@ -203,6 +203,14 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
+     * récupérer le string purpose consent
+     */
+    public static String GetPurposeConsent()
+    {
+        return GDRPHelper.getPurposeConsents();
+    }
+    
+    /**
      * recuperer le status de consentement pour un vendor par son ID
      */
     public static boolean GetConsentForVendor(Integer vendorID)

@@ -44,58 +44,61 @@ namespace com.binouze
         Chartboost = 2898,
         Singular = 1046
     }
-    
+
     public class GoogleUserMessagingPlatform : MonoBehaviour
     {
         private const string AndroidClass = "com.binouze.GoogleUserMessagingPlatform";
 
         [UsedImplicitly]
-        public static  ConsentStatus ConsentStatus { get; private set; } = ConsentStatus.UNKNOWN;
+        public static ConsentStatus ConsentStatus { get; private set; } = ConsentStatus.UNKNOWN;
 
         private static Action<ConsentStatus> OnStatusChanged;
         private static Action                OnFormClosed;
         private static bool                  LogEnabled;
-        
+
         #if UNITY_IOS
-        [DllImport( "__Internal")]
-        private static extern void _EnableDebugLogging(bool enabled);
-        
-        [DllImport( "__Internal")]
-        private static extern void _SetDebugMode(string debugDevice, bool forceReset);
-        
-        [DllImport( "__Internal")]
-        private static extern void _SetTargetChildren(bool targetChildren);
-        
-        [DllImport( "__Internal")]
+        [DllImport( "__Internal" )]
+        private static extern void _EnableDebugLogging( bool enabled );
+
+        [DllImport( "__Internal" )]
+        private static extern void _SetDebugMode( string debugDevice, bool forceReset );
+
+        [DllImport( "__Internal" )]
+        private static extern void _SetTargetChildren( bool targetChildren );
+
+        [DllImport( "__Internal" )]
         private static extern void _Initialize();
-        
-        [DllImport( "__Internal")]
-        private static extern void _LoadForm(bool forceShow, bool forceDispatch);
-        
-        [DllImport( "__Internal")]
+
+        [DllImport( "__Internal" )]
+        private static extern void _LoadForm( bool forceShow, bool forceDispatch );
+
+        [DllImport( "__Internal" )]
         private static extern bool _IsFormAvailable();
-        
-        [DllImport( "__Internal")]
+
+        [DllImport( "__Internal" )]
         private static extern bool _GetCanShowAds();
-        
-        [DllImport( "__Internal")]
+
+        [DllImport( "__Internal" )]
         private static extern bool _GetGDPRRequired();
-        
-        [DllImport( "__Internal")]
-        private static extern bool _GetConsentForVendor(int vendorID);
-        
-        [DllImport( "__Internal")]
-        private static extern bool _GetConsentForExternal(int externalID);
-        
+
+        [DllImport( "__Internal" )]
+        private static extern bool _GetConsentForVendor( int vendorID );
+
+        [DllImport( "__Internal" )]
+        private static extern bool _GetConsentForExternal( int externalID );
+
+        [DllImport( "__Internal" )]
+        private static extern string _GetPurposeConsent();
+
         #endif
 
-        
+
         private static void Log( string str )
         {
             if( LogEnabled )
                 Debug.Log( $"[GoogleUserMessagingPlatform] {str}" );
         }
-        
+
         /// <summary>
         /// set it to true to enable plugin logs
         /// </summary>
@@ -130,17 +133,17 @@ namespace com.binouze
             #if UNITY_EDITOR && !IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
-            
+
             using var cls = new AndroidJavaClass( AndroidClass );
             cls.CallStatic( "SetDebugMode", device, forceReset  );
-            
+
             #elif UNITY_IOS
-            
+
             _SetDebugMode( device, forceReset );
-            
+
             #endif
         }
-        
+
         /// <summary>
         /// set it to true to enable plugin logs
         /// </summary>
@@ -158,6 +161,23 @@ namespace com.binouze
             #elif UNITY_IOS
 
             _SetTargetChildren( targetChildren );
+
+            #endif
+        }
+
+        public static string GetPurposeConsent()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<string>( "GetPurposeConsent" );
+
+            #elif UNITY_IOS
+
+            return _GetPurposeConsent();
 
             #endif
         }
