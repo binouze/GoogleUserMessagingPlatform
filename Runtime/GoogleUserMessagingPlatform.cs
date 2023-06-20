@@ -85,7 +85,7 @@ namespace com.binouze
         private static extern bool _GetConsentForVendor(int vendorID);
         
         [DllImport( "__Internal")]
-        private static extern bool _GetConsentForAdditional(int externalID);
+        private static extern bool _GetConsentForExternal(int externalID);
         
         #endif
 
@@ -207,7 +207,7 @@ namespace com.binouze
 
             #elif UNITY_IOS
 
-            return _GetConsentForAdditional( (int)vendorID );
+            return _GetConsentForExternal( (int)vendorID );
 
             #endif
         }
@@ -223,7 +223,7 @@ namespace com.binouze
 
             #elif UNITY_IOS
 
-            return _GetConsentForAdditional( vendorID );
+            return _GetConsentForExternal( vendorID );
 
             #endif
         }
