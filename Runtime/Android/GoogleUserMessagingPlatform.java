@@ -213,7 +213,7 @@ public class GoogleUserMessagingPlatform
     /**
      * recuperer le status de consentement pour un vendor par son ID
      */
-    public static boolean GetConsentForVendor(Integer vendorID)
+    public static boolean GetConsentForVendor(int vendorID)
     {
         if( DebugMode )
         {
@@ -223,13 +223,13 @@ public class GoogleUserMessagingPlatform
             logInfo("GetConsentForVendor "+pc+" "+vc+" "+ac);
         }
         
-        return GDRPHelper.isVendorAutorized(vendorID);
+        return GDRPHelper.isVendorAutorized(Integer.valueOf(vendorID));
     }
     
     /**
      * recuperer le status de consentement pour un vendor par son ID
      */
-    public static boolean GetConsentForAdditional(Integer vendorID)
+    public static boolean GetConsentForAdditional(int vendorID)
     {
         if( DebugMode )
         {
@@ -239,7 +239,7 @@ public class GoogleUserMessagingPlatform
             logInfo("GetConsentForAdditional "+pc+" "+vc+" "+ac);
         }
         
-        return GDRPHelper.isAddtlConsentAutorized(vendorID);
+        return GDRPHelper.isAddtlConsentAutorized(Integer.valueOf(vendorID));
     }
     
     /**
