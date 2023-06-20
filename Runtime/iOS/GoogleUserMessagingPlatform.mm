@@ -58,9 +58,9 @@ extern "C"
     
     char* _GetPurposeConsent()
     {
-        NSString* NSPurpose    = [[GDPRHelper shared] getPurposeConsents];
-        const char* strPurpose = (const char*) [NSPurpose UTF8String];
-        return strPurpose
+        NSString* NSPurpose = [[GDPRHelper shared] getPurposeConsents];
+        char* strPurpose    = (char*) [NSPurpose UTF8String];
+        return strPurpose;
     } 
     
     bool _GetCanShowAds()
