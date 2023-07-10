@@ -99,13 +99,25 @@ public class GDRPHelper
     // Check if consent is given for a list of purposes
     private static Boolean hasConsentFor( List<Integer> purposes, String purposeConsent )
     {
-        return purposes.stream().allMatch( p -> hasAttribute(purposeConsent, p) );
+        for(int p : purposes) {
+            if(!hasAttribute(purposeConsent, p)) {
+                return false;
+            }
+        }
+        return true;
+        //return purposes.stream().allMatch( p -> hasAttribute(purposeConsent, p) );
     }
     
     // Check if a vendor either has consent or legitimate interest for a list of purposes
     private static Boolean hasConsentOrLegitimateInterestFor( List<Integer> purposes, String purposeConsent, String purposeLI )
     {
-        return purposes.stream().allMatch( p -> hasAttribute(purposeLI, p) || hasAttribute(purposeConsent, p) );
+        for(int p : purposes) {
+            if(!hasAttribute(purposeConsent, p)) {
+                return false;
+            }
+        }
+        return true;
+        //return purposes.stream().allMatch( p -> hasAttribute(purposeLI, p) || hasAttribute(purposeConsent, p) );
     }
     
     // this function deletes the IABTCF_TCString if the timestamp is too old (365 days or more)
