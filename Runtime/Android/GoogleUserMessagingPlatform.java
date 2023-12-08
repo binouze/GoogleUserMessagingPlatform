@@ -16,10 +16,10 @@ public class GoogleUserMessagingPlatform
     private static final String  TAG            = "GoogleUserMessagingPlatform";
     private static       boolean loggingEnabled = false;
     
-    private static void SendStatusMessage(String status)
+    private static void SendStatusMessage( String status )
     {
-        logInfo("SendStatusMessage "+status);
-        UnityPlayer.UnitySendMessage("GoogleUserMessagingPlatform", "OnFormDissmissedMessage", status );
+        logInfo( "SendStatusMessage " + status );
+        UnityPlayer.UnitySendMessage( "GoogleUserMessagingPlatform", "OnFormDissmissedMessage", status );
     }
     
     /**
@@ -30,10 +30,10 @@ public class GoogleUserMessagingPlatform
         loggingEnabled = flag;
     }
     
-    private static boolean DebugMode  = false;
-    private static boolean ForceReset = false;
+    private static boolean DebugMode      = false;
+    private static boolean ForceReset     = false;
     private static boolean TargetChildren = false;
-    private static String DebugDevice = null;
+    private static String  DebugDevice    = null;
     
     /**
      * debug mode for a test device
@@ -75,11 +75,8 @@ public class GoogleUserMessagingPlatform
     public static void Initialize()
     {
         UnityPlayer.currentActivity.runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    DoInitialize();
-                }
+            (Runnable) () -> {
+                DoInitialize();
             });
     }
 
@@ -127,7 +124,6 @@ public class GoogleUserMessagingPlatform
         }
             
         consentInformation = UserMessagingPlatform.getConsentInformation( UnityPlayer.currentActivity );
-        
         if( DebugMode && ForceReset )
         {
             logInfo("Force Reset Datas");
@@ -137,36 +133,30 @@ public class GoogleUserMessagingPlatform
         consentInformation.requestConsentInfoUpdate(
             UnityPlayer.currentActivity,
             params,
-            new ConsentInformation.OnConsentInfoUpdateSuccessListener() 
+            (OnConsentInfoUpdateSuccessListener) () -> 
             {
-                @Override
-                public void onConsentInfoUpdateSuccess() 
+                // The consent information state was updated.
+                // You are now ready to check if a form is available.
+                if( consentInformation.isConsentFormAvailable() ) 
                 {
-                    // The consent information state was updated.
-                    // You are now ready to check if a form is available.
-                    if( consentInformation.isConsentFormAvailable() ) 
-                    {
-                        logInfo("onConsentInfoUpdateSuccess FORM AVAILABLE");
-                        FormAvailable = true;
-                    }
-                    else
-                    {
-                        logError("onConsentInfoUpdateSuccess FORM NOT AVAILABLE");
-                        FormAvailable = false;
-                    }
-                    
-                    LoadForm(false,true);
+                    logInfo("onConsentInfoUpdateSuccess FORM AVAILABLE");
+                    FormAvailable = true;
                 }
+                else
+                {
+                    logError("onConsentInfoUpdateSuccess FORM NOT AVAILABLE");
+                    FormAvailable = false;
+                }
+                
+                // load the form
+                LoadForm( false, true );
             },
-            new ConsentInformation.OnConsentInfoUpdateFailureListener() 
+            (OnConsentInfoUpdateFailureListener) formError -> 
             {
-                @Override
-                public void onConsentInfoUpdateFailure(FormError formError) 
-                {
-                    // Handle the error.
-                    logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
-                }
-            });
+                // Handle the error.
+                logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
+            }
+        );
     }
     
     /**
@@ -184,7 +174,6 @@ public class GoogleUserMessagingPlatform
         
         return !GDRPHelper.isGDPR() || GDRPHelper.canShowAds();
     }
-    
     
     /**
      * true if user accepted GDPR consent usage necessary to see ads
@@ -264,11 +253,8 @@ public class GoogleUserMessagingPlatform
     public static void LoadForm( boolean forceShow, boolean sendStatusToUnity )
     {
         UnityPlayer.currentActivity.runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    DoLoadForm(forceShow,sendStatusToUnity);
-                }
+            (Runnable) () -> {
+                DoLoadForm(forceShow,sendStatusToUnity);
             });
     }
     
@@ -285,47 +271,48 @@ public class GoogleUserMessagingPlatform
     
         UserMessagingPlatform.loadConsentForm(
             UnityPlayer.currentActivity, 
-            new UserMessagingPlatform.OnConsentFormLoadSuccessListener() 
+            (OnConsentFormLoadSuccessListener) () -> 
             {
-                @Override
-                public void onConsentFormLoadSuccess(ConsentForm consentForm) 
+                GoogleUserMessagingPlatform.consentForm = consentForm;
+                // Update consent status
+                ConsentStatus = consentInformation.getConsentStatus();
+                
+                logInfo("onConsentFormLoadSuccess " + ConsentStatus);
+                
+                if( sendStatusToUnity )
+                    SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
+                
+                if( forceShow ) 
                 {
-                    GoogleUserMessagingPlatform.consentForm = consentForm;
-                    ConsentStatus = consentInformation.getConsentStatus();
-                    
-                    logInfo("onConsentFormLoadSuccess " + ConsentStatus);
-                    
-                    if( sendStatusToUnity )
-                        SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
-                    
-                    if( forceShow ) 
-                    {
-                        consentForm.show( 
-                            UnityPlayer.currentActivity,
-                            new ConsentForm.OnConsentFormDismissedListener() 
+                    consentForm.show( 
+                        UnityPlayer.currentActivity,
+                        (OnConsentFormDismissedListener) showFormError ->
+                        {
+                            if( showFormError != null )
                             {
-                                @Override
-                                public void onConsentFormDismissed(FormError formError) 
-                                {
-                                    // Handle dismissal by reloading form.
-                                    logInfo("onConsentFormDismissed");
-                                    LoadForm(false,true);
-                                }
-                            });
-                     }
-                }
+                                logError("onConsentFormDismissed with error: "+showFormError.getMessage());
+                            }
+                            else
+                            {
+                                // Update consent status
+                                ConsentStatus = consentInformation.getConsentStatus();
+                                // Send status update to Unity
+                                SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
+                                
+                                logInfo("onConsentFormDismissed "+ConsentStatus);
+                            }
+                        }
+                    );
+                 }
             },
-            new UserMessagingPlatform.OnConsentFormLoadFailureListener() 
+            (OnConsentFormLoadFailureListener) formError -> 
             {
-                @Override
-                public void onConsentFormLoadFailure(FormError formError) 
-                {
-                    if( forceShow )
-                        SendStatusMessage( "0" );
-                    
-                    // Handle the error.
-                    logError("onConsentFormLoadFailure ERROR: "+formError.getMessage());
-                }
-            });
+                if( forceShow )
+                    SendStatusMessage( "0" );
+                
+                // Handle the error.
+                logError("onConsentFormLoadFailure ERROR: "+formError.getMessage());
+            }
+        );
     }
 }
