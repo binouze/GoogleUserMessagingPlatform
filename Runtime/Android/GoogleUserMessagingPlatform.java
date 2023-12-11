@@ -1,12 +1,7 @@
 package com.binouze;
 
 import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentForm.OnConsentFormDismissedListener;
-import com.google.android.ump.ConsentForm.OnConsentFormLoadSuccessListener;
-import com.google.android.ump.ConsentForm.OnConsentFormLoadFailureListener;
 import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateSuccessListener;
-import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateFailureListener;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.ConsentDebugSettings;
 import com.google.android.ump.FormError;
@@ -138,7 +133,7 @@ public class GoogleUserMessagingPlatform
         consentInformation.requestConsentInfoUpdate(
             UnityPlayer.currentActivity,
             params,
-            (OnConsentInfoUpdateSuccessListener) () -> 
+            () -> 
             {
                 // The consent information state was updated.
                 // You are now ready to check if a form is available.
@@ -156,7 +151,7 @@ public class GoogleUserMessagingPlatform
                 // load the form
                 LoadForm( false, true );
             },
-            (OnConsentInfoUpdateFailureListener) formError -> 
+            formError -> 
             {
                 // Handle the error.
                 logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
@@ -276,7 +271,7 @@ public class GoogleUserMessagingPlatform
     
         UserMessagingPlatform.loadConsentForm(
             UnityPlayer.currentActivity, 
-            (OnConsentFormLoadSuccessListener) () -> 
+            () -> 
             {
                 GoogleUserMessagingPlatform.consentForm = consentForm;
                 // Update consent status
@@ -291,7 +286,7 @@ public class GoogleUserMessagingPlatform
                 {
                     consentForm.show( 
                         UnityPlayer.currentActivity,
-                        (OnConsentFormDismissedListener) showFormError ->
+                        showFormError ->
                         {
                             if( showFormError != null )
                             {
@@ -310,7 +305,7 @@ public class GoogleUserMessagingPlatform
                     );
                  }
             },
-            (OnConsentFormLoadFailureListener) formError -> 
+            formError -> 
             {
                 if( forceShow )
                     SendStatusMessage( "0" );
