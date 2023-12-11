@@ -133,7 +133,7 @@ public class GoogleUserMessagingPlatform
         consentInformation.requestConsentInfoUpdate(
             UnityPlayer.currentActivity,
             params,
-            (OnConsentInfoUpdateSuccessListener) () -> 
+            (ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> 
             {
                 // The consent information state was updated.
                 // You are now ready to check if a form is available.
@@ -151,7 +151,7 @@ public class GoogleUserMessagingPlatform
                 // load the form
                 LoadForm( false, true );
             },
-            (OnConsentInfoUpdateFailureListener) formError -> 
+            (ConsentInformation.OnConsentInfoUpdateFailureListener) formError -> 
             {
                 // Handle the error.
                 logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
@@ -271,7 +271,7 @@ public class GoogleUserMessagingPlatform
     
         UserMessagingPlatform.loadConsentForm(
             UnityPlayer.currentActivity, 
-            (OnConsentFormLoadSuccessListener) () -> 
+            (ConsentInformation.OnConsentFormLoadSuccessListener) () -> 
             {
                 GoogleUserMessagingPlatform.consentForm = consentForm;
                 // Update consent status
@@ -286,7 +286,7 @@ public class GoogleUserMessagingPlatform
                 {
                     consentForm.show( 
                         UnityPlayer.currentActivity,
-                        (OnConsentFormDismissedListener) showFormError ->
+                        (ConsentInformation.OnConsentFormDismissedListener) showFormError ->
                         {
                             if( showFormError != null )
                             {
@@ -305,7 +305,7 @@ public class GoogleUserMessagingPlatform
                     );
                  }
             },
-            (OnConsentFormLoadFailureListener) formError -> 
+            (ConsentInformation.OnConsentFormLoadFailureListener) formError -> 
             {
                 if( forceShow )
                     SendStatusMessage( "0" );
