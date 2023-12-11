@@ -271,7 +271,7 @@ public class GoogleUserMessagingPlatform
     
         UserMessagingPlatform.loadConsentForm(
             UnityPlayer.currentActivity, 
-            () -> 
+            consentForm -> 
             {
                 GoogleUserMessagingPlatform.consentForm = consentForm;
                 // Update consent status
