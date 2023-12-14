@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class GoogleUserMessagingPlatform
 {
-    private static final String  TAG            = "GoogleUserMessagingPlatform";
+    private static final String  TAG            = "GoogleUMP";
     private static       boolean loggingEnabled = false;
     
     private static void SendStatusMessage( String status )
