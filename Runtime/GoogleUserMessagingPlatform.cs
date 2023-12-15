@@ -327,7 +327,7 @@ namespace com.binouze
 
             #elif UNITY_IOS
 
-            return _GetCanShowPresonalizedAds();
+            return _GetCanShowPersonalizedAds();
 
             #endif
 
