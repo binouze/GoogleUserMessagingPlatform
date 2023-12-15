@@ -31,7 +31,7 @@ namespace com.binouze
 
     public enum VendorsIds
     {
-        AdColony = 458,
+        //AdColony = 458,
         Liftoff  = 667,
         Google   = 755
     }
@@ -42,7 +42,8 @@ namespace com.binouze
         AdMost  = 2900,
         AppLovin   = 1301,
         Chartboost = 2898,
-        Singular = 1046
+        Singular = 1046,
+        AdColony = 2710,
     }
 
     public class GoogleUserMessagingPlatform : MonoBehaviour

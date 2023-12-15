@@ -111,8 +111,8 @@ public class GDRPHelper
     // Check if a vendor either has consent or legitimate interest for a list of purposes
     private static Boolean hasConsentOrLegitimateInterestFor( List<Integer> purposes, String purposeConsent, String purposeLI )
     {
-        for(int p : purposes) {
-            if(!hasAttribute(purposeConsent, p)) {
+         for(int p : purposes) {
+            if(!hasAttribute(purposeConsent, p) && !hasAttribute(purposeLI, p)) {
                 return false;
             }
         }
