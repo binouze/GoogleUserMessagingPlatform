@@ -176,6 +176,22 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
+     * true if user accepted GDPR consent usage necessary to see personalized ads
+     */
+    public static boolean GetCanShowPresonalizedAds()
+    {
+        if( DebugMode )
+        {
+            String vc = GDRPHelper.getVendorConsents();
+            String pc = GDRPHelper.getPurposeConsents();
+            String ac = GDRPHelper.getAddtlConsent();
+            logInfo("GetCanShowPresonalizedAds "+pc+" "+vc+" "+ac);
+        }
+
+        return !GDRPHelper.isGDPR() || GDRPHelper.canShowPersonalizedAds();
+    }
+    
+    /**
      * true if user accepted GDPR consent usage necessary to see ads
      */
     public static boolean GetGDPRRequired()

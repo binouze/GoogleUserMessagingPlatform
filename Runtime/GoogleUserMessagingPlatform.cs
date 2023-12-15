@@ -80,6 +80,9 @@ namespace com.binouze
         private static extern bool _GetCanShowAds();
 
         [DllImport( "__Internal" )]
+        private static extern bool _GetCanShowPersonalizedAds();
+
+        [DllImport( "__Internal" )]
         private static extern bool _GetGDPRRequired();
 
         [DllImport( "__Internal" )]
@@ -300,6 +303,31 @@ namespace com.binouze
             #elif UNITY_IOS
 
             return _GetCanShowAds();
+
+            #endif
+
+            return false;
+        }
+        
+        
+
+        /// <summary>
+        /// true if user accepted GDPR consent usage necessary to see personnalized ads
+        /// </summary>
+        [UsedImplicitly]
+        public static bool CanShowPersonalizedAds()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetCanShowPresonalizedAds" );
+
+            #elif UNITY_IOS
+
+            return _GetCanShowPresonalizedAds();
 
             #endif
 

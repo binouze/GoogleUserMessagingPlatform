@@ -77,6 +77,20 @@ extern "C"
         return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] canShowAds];
     }
     
+    bool _GetCanShowPersonalizedAds()
+    {
+        if( DebugMode )
+        {
+            NSString* vc  = [[GDPRHelper shared] getVendorConsents];
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* ac  = [[GDPRHelper shared] getAddtlConsent];
+            NSString* log = [NSString stringWithFormat:@"GetCanShowPersonalizedAds %@ %@ %@", pc, vc, ac];
+            Log(log);
+        }
+    
+        return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] canShowPersonalizedAds];
+    }
+    
     bool _GetConsentForVendor(int vendorID)
     {
         if( DebugMode )
