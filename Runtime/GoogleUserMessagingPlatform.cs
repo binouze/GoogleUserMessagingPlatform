@@ -1,6 +1,11 @@
-﻿#define IMPLEMENTING
+﻿//#define IMPLEMENTING
+
+// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
+// https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
+// vendor id list: https://iabeurope.eu/vendor-list-tcf/
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -173,7 +178,7 @@ namespace com.binouze
         {
             #if UNITY_EDITOR && !IMPLEMENTING
             // nothing to do on editor
-            return false;
+            return "";
             #elif UNITY_ANDROID
 
             using var cls = new AndroidJavaClass( AndroidClass );
@@ -183,6 +188,10 @@ namespace com.binouze
 
             return _GetPurposeConsent();
 
+            #else
+            
+            return "";
+            
             #endif
         }
 
@@ -216,6 +225,10 @@ namespace com.binouze
 
             return _GetConsentForVendor( vendorID );
 
+            #else
+            
+            return false;
+            
             #endif
         }
         
@@ -233,6 +246,10 @@ namespace com.binouze
 
             return _GetConsentForExternal( (int)vendorID );
 
+            #else
+            
+            return false;
+            
             #endif
         }
         public static bool GetConsentForAdditional( int vendorID )
@@ -249,6 +266,10 @@ namespace com.binouze
 
             return _GetConsentForExternal( vendorID );
 
+            #else
+            
+            return false;
+            
             #endif
         }
         
@@ -304,9 +325,11 @@ namespace com.binouze
 
             return _GetCanShowAds();
 
-            #endif
-
+            #else
+            
             return false;
+            
+            #endif
         }
         
         
@@ -329,9 +352,43 @@ namespace com.binouze
 
             return _GetCanShowPersonalizedAds();
 
-            #endif
-
+            #else
+            
             return false;
+            
+            #endif
+        }
+
+        /// <summary>
+        /// returns true if user accepted all vendors ids and external id from the lists + all necessary items to show personalized ads<br/>
+        /// if consent form is not required, returns true.
+        /// </summary>
+        [UsedImplicitly]
+        public static bool UserConsentedAll(List<int> vendorIds, List<int> externalIds)
+        {
+            if( !IsGDPRRequired() )
+                return true;
+
+            // form not shown yet
+            if( IsFormRequired() )
+                return false;
+
+            // check vendors consent
+            foreach( var id in vendorIds )
+            {
+                if( !GetConsentForVendor( id ) )
+                    return false;
+            }
+            
+            // check external consent
+            foreach( var id in externalIds )
+            {
+                if( !_GetConsentForExternal( id ) )
+                    return false;
+            }
+
+            // everythings seems good
+            return true;
         }
         
         /// <summary>
@@ -352,9 +409,11 @@ namespace com.binouze
 
             return _GetGDPRRequired();
 
-            #endif
-
+            #else
+            
             return false;
+            
+            #endif
         }
         
         /// <summary>

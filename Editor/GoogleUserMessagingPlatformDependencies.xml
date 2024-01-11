@@ -1,4 +1,7 @@
 <dependencies>
+    <iosPods>
+        <iosPod name="GoogleUserMessagingPlatform"/>
+    </iosPods>
     <androidPackages>
         <androidPackage spec="com.google.android.ump:user-messaging-platform:2.1.0+"/>
         <androidPackage spec="androidx.preference:preference:1.2+"/>
