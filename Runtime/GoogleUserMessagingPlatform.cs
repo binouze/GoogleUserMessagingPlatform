@@ -366,6 +366,8 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool UserConsentedAll(List<int> vendorIds, List<int> externalIds)
         {
+            #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+            
             if( !IsGDPRRequired() )
                 return true;
 
@@ -383,9 +385,11 @@ namespace com.binouze
             // check external consent
             foreach( var id in externalIds )
             {
-                if( !_GetConsentForExternal( id ) )
+                if( !GetConsentForAdditional( id ) )
                     return false;
             }
+
+            #endif
 
             // everythings seems good
             return true;
