@@ -396,7 +396,7 @@ namespace com.binouze
         }
         
         /// <summary>
-        /// true if user accepted GDPR consent usage necessary to see ads
+        /// true if GDPR applies to the current user
         /// </summary>
         [UsedImplicitly]
         public static bool IsGDPRRequired()
