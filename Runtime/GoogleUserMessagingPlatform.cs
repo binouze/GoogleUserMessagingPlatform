@@ -1,8 +1,10 @@
 ﻿//#define IMPLEMENTING
 
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
+// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md
 // https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
-// vendor id list: https://iabeurope.eu/vendor-list-tcf/
+// vendor id list: https://vendor-list.consensu.org/v3/vendor-list.json
+// additional id infos: https://support.google.com/admanager/answer/9681920?hl=en
 
 using System;
 using System.Collections.Generic;
@@ -99,6 +101,12 @@ namespace com.binouze
         [DllImport( "__Internal" )]
         private static extern string _GetPurposeConsent();
 
+        [DllImport( "__Internal" )]
+        private static extern string _GetVendorConsent();
+
+        [DllImport( "__Internal" )]
+        private static extern string _GetAddtlConsent();
+
         #endif
 
 
@@ -174,6 +182,10 @@ namespace com.binouze
             #endif
         }
 
+        /// <summary>
+        /// returns the IABTCF_PurposeConsents tcf string
+        /// </summary>
+        [UsedImplicitly]
         public static string GetPurposeConsent()
         {
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -195,6 +207,61 @@ namespace com.binouze
             #endif
         }
 
+        /// <summary>
+        /// returns the IABTCF_VendorConsents tcf string
+        /// </summary>
+        [UsedImplicitly]
+        public static string GetVendorConsent()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return "";
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<string>( "GetVendorConsent" );
+
+            #elif UNITY_IOS
+
+            return _GetVendorConsent();
+
+            #else
+            
+            return "";
+            
+            #endif
+        }
+
+        /// <summary>
+        /// returns the IABTCF_AddtlConsent tcf string
+        /// </summary>
+        [UsedImplicitly]
+        public static string GetAddtlConsent()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return "";
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<string>( "GetAddtlConsent" );
+
+            #elif UNITY_IOS
+
+            return _GetAddtlConsent();
+
+            #else
+            
+            return "";
+            
+            #endif
+        }
+
+        /// <summary>
+        /// know if user accepted to share content with the vendor
+        /// https://vendor-list.consensu.org/v3/vendor-list.json
+        /// </summary>
+        [UsedImplicitly]
         public static bool GetConsentForVendor( VendorsIds vendorID )
         {
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -211,6 +278,11 @@ namespace com.binouze
 
             #endif
         }
+        /// <summary>
+        /// know if user accepted to share content with the vendor
+        /// https://vendor-list.consensu.org/v3/vendor-list.json
+        /// </summary>
+        [UsedImplicitly]
         public static bool GetConsentForVendor( int vendorID )
         {
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -232,6 +304,11 @@ namespace com.binouze
             #endif
         }
         
+        /// <summary>
+        /// know if user accepted to share content with the vendor (google additianal id)
+        /// https://support.google.com/admanager/answer/9681920?hl=en
+        /// </summary>
+        [UsedImplicitly]
         public static bool GetConsentForAdditional( ExternalIds vendorID )
         {
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -252,6 +329,11 @@ namespace com.binouze
             
             #endif
         }
+        /// <summary>
+        /// know if user accepted to share content with the vendor (google additianal id)
+        /// https://support.google.com/admanager/answer/9681920?hl=en
+        /// </summary>
+        [UsedImplicitly]
         public static bool GetConsentForAdditional( int vendorID )
         {
             #if UNITY_EDITOR && !IMPLEMENTING
@@ -283,28 +365,41 @@ namespace com.binouze
             OnStatusChanged = Listener;
         }
 
+        private static bool                  IsInitializing;
+        private static Action<ConsentStatus> OnInitialisationComplete;
         /// <summary>
-        /// Initialize the plugin
+        /// Initialize the plugin 
         /// </summary>
+        /// <param name="OnComplete">optionnal callback to know when the initialisation is complete and the ConsentStatus after initialisation</param>
         [UsedImplicitly]
-        public static void Initialize()
+        public static void Initialize( Action<ConsentStatus> OnComplete = null )
         {
             Log( "Initialize" );
-            
+
+            IsInitializing           = true;
+            OnInitialisationComplete = OnComplete;
             SetInstance();
             
             #if UNITY_EDITOR && !IMPLEMENTING
             // nothing to do on editor
+            InitComplete(ConsentStatus.UNKNOWN);
             #elif UNITY_ANDROID
-            
+
             using var cls = new AndroidJavaClass( AndroidClass );
             cls.CallStatic( "Initialize" );
-            
+
             #elif UNITY_IOS
-            
+
             _Initialize();
-            
+
             #endif
+        }
+
+        private static void InitComplete(ConsentStatus status)
+        {
+            IsInitializing = false;
+            OnInitialisationComplete?.Invoke(status);
+            OnInitialisationComplete = null;
         }
 
         /// <summary>
@@ -423,7 +518,6 @@ namespace com.binouze
         /// <summary>
         /// returns true if a form is available
         /// </summary>
-        /// <returns></returns>
         [UsedImplicitly]
         public static bool IsFormAvailable()
         {
@@ -456,7 +550,6 @@ namespace com.binouze
         /// Show the form if the form is available
         /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
-        /// <param name="onComplete"></param>
         [UsedImplicitly]
         public static void ShowForm( Action onComplete )
         {
@@ -481,7 +574,6 @@ namespace com.binouze
         /// <summary>
         /// return true if the form must be shown for the user
         /// </summary>
-        /// <returns></returns>
         [UsedImplicitly]
         public static bool IsFormRequired()
         {
@@ -502,7 +594,6 @@ namespace com.binouze
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
         /// call a callback with true as result if the form has been shown, false if form not shown
         /// </summary>
-        /// <param name="onComplete"></param>
         [UsedImplicitly]
         public static void ShowFormIfRequired( Action<bool> onComplete )
         {
@@ -515,7 +606,7 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// he we receive native plugin messages
+        /// here we receive the native plugin messages
         /// </summary>
         /// <param name="statusString"></param>
         [UsedImplicitly]
@@ -526,6 +617,9 @@ namespace com.binouze
             var statusint = String2Int( statusString );
             ConsentStatus = Enum.IsDefined( typeof(ConsentStatus), statusint ) ? (ConsentStatus)statusint : ConsentStatus.UNKNOWN;
 
+            if( IsInitializing )
+                InitComplete(ConsentStatus);
+            
             OnStatusChanged?.Invoke( ConsentStatus );
             
             OnFormClosed?.Invoke();
@@ -562,7 +656,9 @@ namespace com.binouze
         
         
         
-        
+        /// <summary>
+        /// get back an int from the string message
+        /// </summary>
         private static int String2Int( string str, int defaut = 0 )
         {
             try

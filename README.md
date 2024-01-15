@@ -44,17 +44,11 @@ this repository and put it in the `Assets/Plugins` folder of your project.
             #endif
         }
         
-        // Better to have this one set before the Initialisation too
-        // so after initialisation it will be called with the current status
-        GoogleUserMessagingPlatform.SetOnStatusChangedListener( MajConsentStatus );
         // Initialize GoogleUserMessagingPlatform
-        GoogleUserMessagingPlatform.Initialize();
-    }
-    
-    private void MajConsentStatus( ConsentStatus status )
-    {
-        // Maybe you want to show the form directly after the initialisation if status is REQUIRED
-        GoogleUserMessagingPlatform.ShowFormIfRequired();
+        GoogleUserMessagingPlatform.Initialize( status => {
+            // Maybe you want to show the form directly after the initialisation if status is REQUIRED
+            GoogleUserMessagingPlatform.ShowFormIfRequired();
+        });
     }
     
     private void ShowConsentFormBeforeAction()
@@ -65,8 +59,8 @@ this repository and put it in the `Assets/Plugins` folder of your project.
         });
         
         // Maybe you want to show the consent form before to make an action only if status is REQUIRED
-        GoogleUserMessagingPlatform.ShowFormIfRequired( () => {
-            // Do whatever after
+        GoogleUserMessagingPlatform.ShowFormIfRequired( formShown => {
+            // Do whatever after, formShown will be true if the form was shown to the user
         });
     }
     
@@ -75,7 +69,7 @@ this repository and put it in the `Assets/Plugins` folder of your project.
     {
         // If you want a button to show the form only if available
         Button.gameObject.SetActive( GoogleUserMessagingPlatform.IsFormAvailable() );
-        Button.onClick.AddListener( GoogleUserMessagingPlatform.ShowForm )
+        Button.onClick.AddListener( GoogleUserMessagingPlatform.ShowForm );
     }
     
 ```

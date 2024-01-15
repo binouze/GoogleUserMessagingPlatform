@@ -63,6 +63,20 @@ extern "C"
         return strPurpose;
     } 
     
+    char* _GetVendorConsent()
+    {
+        NSString* NSPurpose = [[GDPRHelper shared] getVendorConsents];
+        char* strPurpose    = (char*) [NSPurpose UTF8String];
+        return strPurpose;
+    } 
+    
+    char* _GetAddtlConsent()
+    {
+        NSString* NSPurpose = [[GDPRHelper shared] getAddtlConsent];
+        char* strPurpose    = (char*) [NSPurpose UTF8String];
+        return strPurpose;
+    } 
+    
     bool _GetCanShowAds()
     {
         if( DebugMode )

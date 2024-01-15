@@ -216,6 +216,22 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
+     * récupérer le string vendor consent
+     */
+    public static String GetVendorConsent()
+    {
+        return GDRPHelper.getVendorConsents();
+    }
+    
+    /**
+     * récupérer le string addtl consent
+     */
+    public static String GetAddtlConsent()
+    {
+        return GDRPHelper.getAddtlConsent();
+    }
+    
+    /**
      * recuperer le status de consentement pour un vendor par son ID
      */
     public static boolean GetConsentForVendor(int vendorID)
