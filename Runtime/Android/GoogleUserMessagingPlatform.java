@@ -278,8 +278,7 @@ public class GoogleUserMessagingPlatform
     {
         if( !FormAvailable )
         {
-            if( forceShow )
-                SendStatusMessage( "0" );
+            MajConsentStatus(sendStatusToUnity || forceShow);
                 
             logError("LoadForm FORM NOT AVAILABLE");
             return;
@@ -290,13 +289,10 @@ public class GoogleUserMessagingPlatform
             consentForm -> 
             {
                 GoogleUserMessagingPlatform.consentForm = consentForm;
-                // Update consent status
-                ConsentStatus = consentInformation.getConsentStatus();
+                
+                MajConsentStatus(sendStatusToUnity);
                 
                 logInfo("onConsentFormLoadSuccess " + ConsentStatus);
-                
-                if( sendStatusToUnity )
-                    SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
                 
                 if( forceShow ) 
                 {
@@ -304,17 +300,14 @@ public class GoogleUserMessagingPlatform
                         UnityPlayer.currentActivity,
                         showFormError ->
                         {
+                            MajConsentStatus(true);
+                        
                             if( showFormError != null )
                             {
                                 logError("onConsentFormDismissed with error: "+showFormError.getMessage());
                             }
                             else
                             {
-                                // Update consent status
-                                ConsentStatus = consentInformation.getConsentStatus();
-                                // Send status update to Unity
-                                SendStatusMessage( String.format("%d", consentInformation.getConsentStatus()) );
-                                
                                 logInfo("onConsentFormDismissed "+ConsentStatus);
                             }
                         }
@@ -323,12 +316,31 @@ public class GoogleUserMessagingPlatform
             },
             formError -> 
             {
-                if( forceShow )
-                    SendStatusMessage( "0" );
+                MajConsentStatus(forceShow || sendStatusToUnity);
                 
                 // Handle the error.
                 logError("onConsentFormLoadFailure ERROR: "+formError.getMessage());
             }
         );
+    }
+    
+    private static void MajConsentStatus( boolean sendToUnity )
+    {
+        try
+        {
+            // try to update consent status. As no form is available, it should be NOT_REQUIRED
+            ConsentStatus = consentInformation.getConsentStatus();
+        }
+        catch( Exception e )
+        {
+            // if we can't get the updated consentStatus, we keep the previous one
+            logError("MajConsentStatus: error getting consent status: " + e.getMessage());
+        }
+        
+        // send the consent status to Unity if needed
+        if( sendToUnity )
+        {
+            SendStatusMessage( String.format("%d", ConsentStatus) );
+        }
     }
 }

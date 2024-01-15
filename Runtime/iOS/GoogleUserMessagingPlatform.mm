@@ -154,8 +154,8 @@ extern "C"
     {
         if( !IsFormAvailable )
         {
-            if( forceDispatch )
-                dispatchStatus( 0 );
+            if( forceDispatch || forceShow )
+                dispatchStatus( (int)UMPConsentInformation.sharedInstance.consentStatus );
                 
             LogError(@"LoadForm FORM NOT AVAILABLE");
             return;
@@ -165,8 +165,8 @@ extern "C"
             {
                 if( loadError )
                 {
-                    if( forceShow )
-                        dispatchStatus( 0 );
+                    if( forceShow || forceDispatch )
+                        dispatchStatus( (int)UMPConsentInformation.sharedInstance.consentStatus );
                         
                     // Handle the error
                     LogError( [NSString stringWithFormat:@"%@ / %@", @"onConsentFormLoadFailure ERROR ", loadError.description] );
