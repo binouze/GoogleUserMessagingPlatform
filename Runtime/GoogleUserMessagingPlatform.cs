@@ -412,10 +412,10 @@ namespace com.binouze
 
         private static void InitComplete(ConsentStatus status)
         {
+            _consentStatus = status;
             IsInitializing = false;
             OnInitialisationComplete?.Invoke(status);
             OnInitialisationComplete = null;
-            ConsentStatus = status;
         }
 
         /// <summary>
