@@ -57,8 +57,23 @@ namespace com.binouze
     {
         private const string AndroidClass = "com.binouze.GoogleUserMessagingPlatform";
 
+        private static ConsentStatus _consentStatus = ConsentStatus.UNKNOWN;
+        
         [UsedImplicitly]
-        public static ConsentStatus ConsentStatus { get; private set; } = ConsentStatus.UNKNOWN;
+        public static ConsentStatus ConsentStatus
+        {
+            get => _consentStatus;
+            private set
+            {
+                if ( _consentStatus == value )
+                {
+                    return;
+                }
+                
+                _consentStatus = value;
+                OnStatusChanged?.Invoke( value );
+            }
+        }
 
         private static Action<ConsentStatus> OnStatusChanged;
         private static Action                OnFormClosed;
@@ -400,6 +415,7 @@ namespace com.binouze
             IsInitializing = false;
             OnInitialisationComplete?.Invoke(status);
             OnInitialisationComplete = null;
+            ConsentStatus = status;
         }
 
         /// <summary>
@@ -615,12 +631,15 @@ namespace com.binouze
             Log( $"OnFormDissmissedMessage {statusString}" );
             
             var statusint = String2Int( statusString );
-            ConsentStatus = Enum.IsDefined( typeof(ConsentStatus), statusint ) ? (ConsentStatus)statusint : ConsentStatus.UNKNOWN;
+            var newConsentStatus = Enum.IsDefined( typeof(ConsentStatus), statusint ) ? (ConsentStatus)statusint : ConsentStatus.UNKNOWN;
 
-            if( IsInitializing )
-                InitComplete(ConsentStatus);
-            
-            OnStatusChanged?.Invoke( ConsentStatus );
+            if (IsInitializing)
+            {
+                InitComplete(newConsentStatus);
+                return;
+            }
+
+            ConsentStatus = newConsentStatus;
             
             OnFormClosed?.Invoke();
             OnFormClosed = null;
