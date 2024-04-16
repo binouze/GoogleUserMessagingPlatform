@@ -124,6 +124,9 @@ namespace com.binouze
         private static extern string _GetVendorConsent();
 
         [DllImport( "__Internal" )]
+        private static extern string _GetVendorLI();
+
+        [DllImport( "__Internal" )]
         private static extern string _GetAddtlConsent();
         
 
@@ -243,7 +246,7 @@ namespace com.binouze
         /// returns the IABTCF_PurposeConsents tcf string
         /// </summary>
         [UsedImplicitly]
-        public static string GetPurposeLegitimateInterset()
+        public static string GetPurposeLegitimateInterest()
         {
             #if UNITY_EDITOR && !IMPLEMENTING
             // nothing to do on editor
@@ -281,6 +284,31 @@ namespace com.binouze
             #elif UNITY_IOS
 
             return _GetVendorConsent();
+
+            #else
+            
+            return "";
+            
+            #endif
+        }
+
+        /// <summary>
+        /// returns the IABTCF_VendorConsents tcf string
+        /// </summary>
+        [UsedImplicitly]
+        public static string GetVendorLegitimateInterest()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return "";
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<string>( "GetVendorLI" );
+
+            #elif UNITY_IOS
+
+            return _GetVendorLI();
 
             #else
             
