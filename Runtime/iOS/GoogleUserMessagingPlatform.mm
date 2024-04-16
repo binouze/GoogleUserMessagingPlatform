@@ -246,6 +246,13 @@ extern "C"
         return IsFormAvailable;
     }
 
+    bool _GetCanRequestAds()
+    {
+        if( IsInit )
+            return UMPConsentInformation.sharedInstance.canRequestAds;
+        return false;
+    }
+
     void _Initialize() 
     {        
         if( IsInit )

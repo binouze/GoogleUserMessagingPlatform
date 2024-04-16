@@ -132,6 +132,9 @@ namespace com.binouze
         [DllImport( "__Internal" )]
         private static extern bool _GetFirebase_ad_user_data();
 
+        [DllImport( "__Internal" )]
+        private static extern bool _GetCanRequestAds();
+
         #endif
 
 
@@ -380,6 +383,38 @@ namespace com.binouze
             #endif
         }
 
+        /// <summary>
+        /// returns the value of consentInformation.canRequestAds().
+        /// <br/><br/>
+        /// If true, you can initialize the Google Mobile Ads SDK in parallel
+        /// while checking for new consent information. Consent obtained in
+        /// the previous session can be used to request ads.
+        /// <br/><br/>
+        /// As documented here: https://developers.google.com/admob/android/privacy/api/reference/com/google/android/ump/ConsentInformation#public-abstract-boolean-canrequestads,
+        /// it's the same as checking if ConsentStatus != REQUIRED
+        /// </summary>
+        /// <returns></returns>
+        public static bool GetCanRequestAds()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetCanRequestAds" );
+
+            #elif UNITY_IOS
+
+            return _GetCanRequestAds();
+
+            #else
+            
+            return false;
+            
+            #endif
+        }
+        
 
         public static bool GetFirebaseAdStorage()
         {

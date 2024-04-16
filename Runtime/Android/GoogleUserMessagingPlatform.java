@@ -160,6 +160,16 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
+     * returns the value of consentInformation.canRequestAds()
+     */
+    public static boolean GetCanRequestAds()
+    {
+        if( IsInit )
+            return consentInformation.canRequestAds();
+        return false;
+    }
+    
+    /**
      * true if user accepted GDPR consent usage necessary to see ads
      */
     public static boolean GetCanShowAds()
@@ -225,7 +235,7 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
-     * true if user accepted GDPR consent usage necessary to see ads
+     * true is the user in under GDPR law
      */
     public static boolean GetGDPRRequired()
     {
