@@ -112,8 +112,12 @@ import Foundation
         //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
         let settings       = UserDefaults.standard
         let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        let purposeLI      = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
-        return hasConsentFor([1], purposeConsent)
+        let consent = hasConsentFor([1], purposeConsent)
+        let li      = hasConsentFor([1], purposeLI)
+        
+        return consent || li
     }
     
     @objc public func getFirebase_ad_personalization() -> Bool
@@ -121,8 +125,15 @@ import Foundation
         //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
         let settings       = UserDefaults.standard
         let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        let purposeLI      = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
-        return hasConsentFor([3,4], purposeConsent)
+        let consent3 = hasConsentFor([3], purposeConsent)
+        let consent4 = hasConsentFor([4], purposeConsent)
+        
+        let li3      = hasConsentFor([3], purposeLI)
+        let li4      = hasConsentFor([4], purposeLI)
+        
+        return (consent3 || li3) && (consent4 || li4)
     }
     
     @objc public func getFirebase_ad_user_data() -> Bool
@@ -130,8 +141,15 @@ import Foundation
         //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
         let settings       = UserDefaults.standard
         let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        let purposeLI      = settings.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
         
-        return hasConsentFor([1,7], purposeConsent)
+        let consent1 = hasConsentFor([1], purposeConsent)
+        let consent7 = hasConsentFor([7], purposeConsent)
+        
+        let li1      = hasConsentFor([1], purposeLI)
+        let li7      = hasConsentFor([7], purposeLI)
+        
+        return (consent1 || li1) && (consent7 || li7)
     }
     
     // -----------------------------------------------------------------------------------------------------------------

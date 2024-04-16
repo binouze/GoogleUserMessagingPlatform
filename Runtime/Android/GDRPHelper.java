@@ -82,8 +82,12 @@ public class GDRPHelper
         // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
         String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+        String purposeLI        = prefs.getString("IABTCF_PurposeLegitimateInterests", "");
     
-        return hasConsentFor( Arrays.asList(1), purposeConsent );
+        Boolean consent = hasConsentFor( Arrays.asList(1), purposeConsent );
+        Boolean li      = hasConsentFor( Arrays.asList(1), purposeLI );
+    
+        return consent || li;
     }
     
      public static Boolean getFirebase_ad_personalization()
@@ -91,8 +95,15 @@ public class GDRPHelper
          // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
          String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+         String purposeLI        = prefs.getString("IABTCF_PurposeLegitimateInterests", "");
      
-         return hasConsentFor( Arrays.asList(3,4), purposeConsent );
+         Boolean consent3 = hasConsentFor( Arrays.asList(3), purposeConsent );
+         Boolean consent4 = hasConsentFor( Arrays.asList(4), purposeConsent );
+         
+         Boolean li3 = hasConsentFor( Arrays.asList(3), purposeLI );
+         Boolean li4 = hasConsentFor( Arrays.asList(4), purposeLI );
+     
+         return (consent3 || li3) && (consent4 || li4);
      }
      
      public static Boolean getFirebase_ad_user_data()
@@ -100,8 +111,15 @@ public class GDRPHelper
          // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
          String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+         String purposeLI        = prefs.getString("IABTCF_PurposeLegitimateInterests", "");
      
-         return hasConsentFor( Arrays.asList(1,7), purposeConsent );
+         Boolean consent1 = hasConsentFor( Arrays.asList(1), purposeConsent );
+         Boolean consent7 = hasConsentFor( Arrays.asList(7), purposeConsent );
+         
+         Boolean li1 = hasConsentFor( Arrays.asList(1), purposeLI );
+         Boolean li7 = hasConsentFor( Arrays.asList(7), purposeLI );
+     
+         return (consent1 || li1) && (consent7 || li7);
      }
     
     // -----------------------------------------------------------------------------------------------------------------
