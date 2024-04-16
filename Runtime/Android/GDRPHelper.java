@@ -16,9 +16,17 @@ public class GDRPHelper
     {
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_VendorConsents", "");
     }
+    public static String getVendorLI()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_VendorLegitimateInterests", "");
+    }
     public static String getPurposeConsents()
     {
         return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_PurposeConsents", "");
+    }
+    public static String getPurposeLI()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity).getString("IABTCF_PurposeLegitimateInterests", "");
     }
     public static String getAddtlConsent()
     {

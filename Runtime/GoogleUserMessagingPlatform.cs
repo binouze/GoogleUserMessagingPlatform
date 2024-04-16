@@ -118,6 +118,9 @@ namespace com.binouze
         private static extern string _GetPurposeConsent();
 
         [DllImport( "__Internal" )]
+        private static extern string _GetPurposeLI();
+
+        [DllImport( "__Internal" )]
         private static extern string _GetVendorConsent();
 
         [DllImport( "__Internal" )]
@@ -228,6 +231,31 @@ namespace com.binouze
             #elif UNITY_IOS
 
             return _GetPurposeConsent();
+
+            #else
+            
+            return "";
+            
+            #endif
+        }
+
+        /// <summary>
+        /// returns the IABTCF_PurposeConsents tcf string
+        /// </summary>
+        [UsedImplicitly]
+        public static string GetPurposeLegitimateInterset()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return "";
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<string>( "GetPurposeLI" );
+
+            #elif UNITY_IOS
+
+            return _GetPurposeLI();
 
             #else
             

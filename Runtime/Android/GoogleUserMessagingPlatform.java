@@ -259,11 +259,27 @@ public class GoogleUserMessagingPlatform
     }
     
     /**
+     * récupérer le string purpose consent
+     */
+    public static String GetPurposeLI()
+    {
+        return GDRPHelper.getPurposeLI();
+    }
+    
+    /**
      * récupérer le string vendor consent
      */
     public static String GetVendorConsent()
     {
         return GDRPHelper.getVendorConsents();
+    }
+    
+    /**
+     * récupérer le string vendor consent
+     */
+    public static String GetVendorLI()
+    {
+        return GDRPHelper.getVendorLI();
     }
     
     /**

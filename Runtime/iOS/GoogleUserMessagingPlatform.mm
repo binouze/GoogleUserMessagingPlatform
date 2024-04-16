@@ -62,14 +62,24 @@ extern "C"
         char* strPurpose    = (char*) [NSPurpose UTF8String];
         return strPurpose;
     } 
-    
+    char* _GetPurposeLI()
+    {
+        NSString* NSPurpose = [[GDPRHelper shared] getPurposeLI];
+        char* strPurpose    = (char*) [NSPurpose UTF8String];
+        return strPurpose;
+    } 
     char* _GetVendorConsent()
     {
         NSString* NSPurpose = [[GDPRHelper shared] getVendorConsents];
         char* strPurpose    = (char*) [NSPurpose UTF8String];
         return strPurpose;
     } 
-    
+    char* _GetVendorLI()
+    {
+        NSString* NSPurpose = [[GDPRHelper shared] getVendorLI];
+        char* strPurpose    = (char*) [NSPurpose UTF8String];
+        return strPurpose;
+    } 
     char* _GetAddtlConsent()
     {
         NSString* NSPurpose = [[GDPRHelper shared] getAddtlConsent];

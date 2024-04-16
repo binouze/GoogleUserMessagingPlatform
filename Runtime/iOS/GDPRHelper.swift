@@ -15,9 +15,17 @@ import Foundation
     {
         return UserDefaults.standard.string(forKey: "IABTCF_VendorConsents") ?? ""
     }
+    @objc public func getVendorLI() -> String
+    {
+        return UserDefaults.standard.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
+    }
     @objc public func getPurposeConsents() -> String
     {
         return UserDefaults.standard.string(forKey: "IABTCF_PurposeConsents") ?? ""
+    }
+    @objc public func getPurposeLI() -> String
+    {
+        return UserDefaults.standard.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
     }
     @objc public func getAddtlConsent() -> String
     {
