@@ -147,6 +147,41 @@ extern "C"
         return [[GDPRHelper shared] isGDPR];
     }
     
+    bool _GetFirebase_ad_storage()
+    {
+        if( DebugMode )
+        {
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* log = [NSString stringWithFormat:@"_GetFirebase_ad_storage %@", pc];
+            Log(log);
+        }
+    
+        return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] getFirebase_ad_storage];
+    }
+    bool _GetFirebase_ad_personalization()
+    {
+        if( DebugMode )
+        {
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* log = [NSString stringWithFormat:@"_GetFirebase_ad_personalization %@", pc];
+            Log(log);
+        }
+    
+        return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] getFirebase_ad_personalization];
+    }
+    bool _GetFirebase_ad_user_data()
+    {
+        if( DebugMode )
+        {
+            NSString* pc  = [[GDPRHelper shared] getPurposeConsents];
+            NSString* log = [NSString stringWithFormat:@"_GetFirebase_ad_user_data %@", pc];
+            Log(log);
+        }
+    
+        return ![[GDPRHelper shared] isGDPR] || [[GDPRHelper shared] getFirebase_ad_user_data];
+    }
+    
+    
     void _EnableDebugLogging( bool enabled )
     {
         IsLogEnabled = enabled;

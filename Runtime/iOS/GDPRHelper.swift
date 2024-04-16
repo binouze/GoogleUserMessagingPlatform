@@ -96,6 +96,38 @@ import Foundation
                hasConsentOrLegitimateInterestFor([2,7,9,10], purposeConsent, purposeLI)
     }
     
+    // -----------------------------------------------------------------------------------------------------------------
+    // Firebase Analytics Specific
+    
+    @objc public func getFirebase_ad_storage() -> Bool
+    {
+        //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        let settings       = UserDefaults.standard
+        let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        
+        return hasConsentFor([1], purposeConsent)
+    }
+    
+    @objc public func getFirebase_ad_personalization() -> Bool
+    {
+        //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        let settings       = UserDefaults.standard
+        let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        
+        return hasConsentFor([3,4], purposeConsent)
+    }
+    
+    @objc public func getFirebase_ad_user_data() -> Bool
+    {
+        //https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        let settings       = UserDefaults.standard
+        let purposeConsent = settings.string(forKey: "IABTCF_PurposeConsents") ?? ""
+        
+        return hasConsentFor([1,7], purposeConsent)
+    }
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    
     @objc public func isVendorAutorized(vendorID:Int) -> Bool
     {
         let settings      = UserDefaults.standard

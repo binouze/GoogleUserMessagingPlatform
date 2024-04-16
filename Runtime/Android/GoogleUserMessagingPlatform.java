@@ -191,6 +191,39 @@ public class GoogleUserMessagingPlatform
         return !GDRPHelper.isGDPR() || GDRPHelper.canShowPersonalizedAds();
     }
     
+    public static boolean GetFirebase_ad_storage()
+    {
+        if( DebugMode )
+        {
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetFirebase_ad_storage "+pc);
+        }
+
+        return !GDRPHelper.isGDPR() || GDRPHelper.getFirebase_ad_storage();
+    }
+    
+    public static boolean GetFirebase_ad_personalization()
+    {
+        if( DebugMode )
+        {
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetFirebase_ad_personalization "+pc);
+        }
+
+        return !GDRPHelper.isGDPR() || GDRPHelper.getFirebase_ad_personalization();
+    }
+    
+    public static boolean GetFirebase_ad_user_data()
+    {
+        if( DebugMode )
+        {
+            String pc = GDRPHelper.getPurposeConsents();
+            logInfo("GetFirebase_ad_user_data "+pc);
+        }
+
+        return !GDRPHelper.isGDPR() || GDRPHelper.getFirebase_ad_user_data();
+    }
+    
     /**
      * true if user accepted GDPR consent usage necessary to see ads
      */

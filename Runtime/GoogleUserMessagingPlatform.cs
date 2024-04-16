@@ -121,6 +121,16 @@ namespace com.binouze
 
         [DllImport( "__Internal" )]
         private static extern string _GetAddtlConsent();
+        
+
+        [DllImport( "__Internal" )]
+        private static extern bool _GetFirebase_ad_storage();
+
+        [DllImport( "__Internal" )]
+        private static extern bool _GetFirebase_ad_personalization();
+
+        [DllImport( "__Internal" )]
+        private static extern bool _GetFirebase_ad_user_data();
 
         #endif
 
@@ -369,6 +379,69 @@ namespace com.binouze
             
             #endif
         }
+
+
+        public static bool GetFirebaseAdStorage()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetFirebase_ad_storage" );
+
+            #elif UNITY_IOS
+
+            return _GetFirebase_ad_storage();
+
+            #else
+            
+            return false;
+            
+            #endif
+        }
+        public static bool GetFirebaseAdUserData()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetFirebase_ad_user_data" );
+
+            #elif UNITY_IOS
+
+            return _GetFirebase_ad_user_data();
+
+            #else
+            
+            return false;
+            
+            #endif
+        }
+        public static bool GetFirebaseAdPersonalization()
+        {
+            #if UNITY_EDITOR && !IMPLEMENTING
+            // nothing to do on editor
+            return false;
+            #elif UNITY_ANDROID
+
+            using var cls = new AndroidJavaClass( AndroidClass );
+            return cls.CallStatic<bool>( "GetFirebase_ad_personalization" );
+
+            #elif UNITY_IOS
+
+            return _GetFirebase_ad_personalization();
+
+            #else
+            
+            return false;
+            
+            #endif
+        }
+        
         
         /// <summary>
         /// Set a callback to listen for consent status change

@@ -67,6 +67,37 @@ public class GDRPHelper
                hasConsentOrLegitimateInterestFor( Arrays.asList(2,7,9,10), purposeConsent, purposeLI );
     }
     
+    // -- FIREBASE -----------------------------------------------------------------------------------------------------
+    
+    public static Boolean getFirebase_ad_storage()
+    {
+        // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+        String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+    
+        return hasConsentFor( Arrays.asList(1), purposeConsent );
+    }
+    
+     public static Boolean getFirebase_ad_personalization()
+     {
+         // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+         String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+     
+         return hasConsentFor( Arrays.asList(3,4), purposeConsent );
+     }
+     
+     public static Boolean getFirebase_ad_user_data()
+     {
+         // https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UnityPlayer.currentActivity);
+         String purposeConsent   = prefs.getString("IABTCF_PurposeConsents", "");
+     
+         return hasConsentFor( Arrays.asList(1,7), purposeConsent );
+     }
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    
     /**
      * Savoir si un vendeur avec un ID specifie a ete autorise par l'utilisateur
      * @see https://iabeurope.eu/vendor-list-tcf/ for vendorList IDs
