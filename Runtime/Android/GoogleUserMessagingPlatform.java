@@ -155,6 +155,7 @@ public class GoogleUserMessagingPlatform
             {
                 // Handle the error.
                 logError("onConsentInfoUpdateFailure ERROR: "+formError.getMessage());
+                LoadForm( false, true );
             }
         );
     }
