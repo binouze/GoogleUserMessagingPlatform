@@ -320,9 +320,8 @@ extern "C"
                     {
                         Log(@"onConsentInfoUpdateSuccess FROM NOT AVAILABLE");
                     }
-                    
-                    _LoadForm( false, true );
                 }
+                _LoadForm( false, true );
             }];
     }
 }
