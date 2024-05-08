@@ -91,9 +91,9 @@ public class GoogleUserMessagingPlatform
         
         logInfo("Initialize");
     
-        boolean deleted = GDRPHelper.deleteOutdatedTCString();
+        /*boolean deleted = GDRPHelper.deleteOutdatedTCString();
         if( deleted )
-            logInfo("deleted outdated TCF String");
+            logInfo("deleted outdated TCF String");*/
             
         ConsentRequestParameters params;
         if( DebugMode )

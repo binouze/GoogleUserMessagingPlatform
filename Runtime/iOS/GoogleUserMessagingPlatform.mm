@@ -271,9 +271,9 @@ extern "C"
     
         Log(@"Initialize");
     
-        bool deleted = [[GDPRHelper shared] deleteOutdatedTCString];
+        /*bool deleted = [[GDPRHelper shared] deleteOutdatedTCString];
         if( deleted )
-            Log(@"deleted outdated TCF String");
+            Log(@"deleted outdated TCF String");*/
     
         // Create a UMPRequestParameters object.
         UMPRequestParameters *parameters = [[UMPRequestParameters alloc] init];
