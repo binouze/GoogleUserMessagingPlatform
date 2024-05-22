@@ -1,6 +1,4 @@
-﻿//#define IMPLEMENTING
-
-// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
+﻿// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md
 // https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
 // vendor id list: https://vendor-list.consensu.org/v3/vendor-list.json
@@ -160,7 +158,7 @@ namespace com.binouze
         {
             LogEnabled = enabled;
 
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -182,7 +180,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static void SetDebugMode( string device, bool forceReset )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -203,7 +201,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static void SetTargetChildren( bool targetChildren )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -223,7 +221,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetPurposeConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -248,7 +246,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetPurposeLegitimateInterest()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -273,7 +271,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetVendorConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -298,7 +296,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetVendorLegitimateInterest()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -323,7 +321,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetAddtlConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -349,7 +347,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForVendor( VendorsIds vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -370,7 +368,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForVendor( int vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -396,7 +394,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForAdditional( ExternalIds vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -421,7 +419,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForAdditional( int vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -453,7 +451,7 @@ namespace com.binouze
         /// <returns></returns>
         public static bool GetCanRequestAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -475,7 +473,7 @@ namespace com.binouze
 
         public static bool GetFirebaseAdStorage()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -495,7 +493,7 @@ namespace com.binouze
         }
         public static bool GetFirebaseAdUserData()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -515,7 +513,7 @@ namespace com.binouze
         }
         public static bool GetFirebaseAdPersonalization()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -560,7 +558,7 @@ namespace com.binouze
             OnInitialisationComplete = OnComplete;
             SetInstance();
             
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             InitComplete(ConsentStatus.UNKNOWN);
             #elif UNITY_ANDROID
@@ -589,7 +587,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool CanShowAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -616,7 +614,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool CanShowPersonalizedAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -677,7 +675,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool IsGDPRRequired()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -702,7 +700,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool IsFormAvailable()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             #elif UNITY_ANDROID
             
@@ -738,7 +736,7 @@ namespace com.binouze
             
             OnFormClosed = onComplete;
             
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR 
             // nothing to do on editor
             #elif UNITY_ANDROID
             
