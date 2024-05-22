@@ -575,7 +575,7 @@ namespace com.binouze
 
         private static void InitComplete(ConsentStatus status)
         {
-            _consentStatus = status;
+            ConsentStatus = status;
             IsInitializing = false;
             OnInitialisationComplete?.Invoke(status);
             OnInitialisationComplete = null;
