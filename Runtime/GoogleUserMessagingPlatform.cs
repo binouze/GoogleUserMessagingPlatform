@@ -197,7 +197,7 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// set it to true to enable plugin logs
+        /// set it to true to enable target children
         /// </summary>
         /// <param name="targetChildren"></param>
         [UsedImplicitly]
