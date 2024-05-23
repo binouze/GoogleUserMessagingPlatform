@@ -1,4 +1,4 @@
-﻿//#define IMPLEMENTING
+﻿//#define UMP_IMPLEMENTING
 
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md
@@ -60,6 +60,9 @@ namespace com.binouze
 
         private static ConsentStatus _consentStatus = ConsentStatus.UNKNOWN;
         
+        /// <summary>
+        /// the current TCF ConsentStatus (will be UNKNOWN until init complete)
+        /// </summary>
         [UsedImplicitly]
         public static ConsentStatus ConsentStatus
         {
@@ -160,7 +163,7 @@ namespace com.binouze
         {
             LogEnabled = enabled;
 
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -182,7 +185,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static void SetDebugMode( string device, bool forceReset )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -197,13 +200,13 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// set it to true to enable plugin logs
+        /// define if your app target users under the age of consent
         /// </summary>
         /// <param name="targetChildren"></param>
         [UsedImplicitly]
         public static void SetTargetChildren( bool targetChildren )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
 
@@ -223,7 +226,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetPurposeConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -243,12 +246,12 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// returns the IABTCF_PurposeConsents tcf string
+        /// returns the IABTCF_PurposeLegitimateInterests tcf string
         /// </summary>
         [UsedImplicitly]
         public static string GetPurposeLegitimateInterest()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -273,7 +276,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetVendorConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -293,12 +296,12 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// returns the IABTCF_VendorConsents tcf string
+        /// returns the IABTCF_VendorLegitimateInterests tcf string
         /// </summary>
         [UsedImplicitly]
         public static string GetVendorLegitimateInterest()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -323,7 +326,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static string GetAddtlConsent()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return "";
             #elif UNITY_ANDROID
@@ -349,19 +352,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForVendor( VendorsIds vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
-            // nothing to do on editor
-            return false;
-            #elif UNITY_ANDROID
-
-            using var cls = new AndroidJavaClass( AndroidClass );
-            return cls.CallStatic<bool>( "GetConsentForVendor", (int)vendorID );
-
-            #elif UNITY_IOS
-
-            return _GetConsentForVendor( (int)vendorID );
-
-            #endif
+            return GetConsentForVendor( (int)vendorID );
         }
         /// <summary>
         /// know if user accepted to share content with the vendor
@@ -370,7 +361,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForVendor( int vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -396,23 +387,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForAdditional( ExternalIds vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
-            // nothing to do on editor
-            return false;
-            #elif UNITY_ANDROID
-
-            using var cls = new AndroidJavaClass( AndroidClass );
-            return cls.CallStatic<bool>( "GetConsentForAdditional", (int)vendorID );
-
-            #elif UNITY_IOS
-
-            return _GetConsentForExternal( (int)vendorID );
-
-            #else
-            
-            return false;
-            
-            #endif
+            return GetConsentForAdditional( (int)vendorID );
         }
         /// <summary>
         /// know if user accepted to share content with the vendor (google additianal id)
@@ -421,7 +396,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool GetConsentForAdditional( int vendorID )
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -453,7 +428,7 @@ namespace com.binouze
         /// <returns></returns>
         public static bool GetCanRequestAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -472,10 +447,14 @@ namespace com.binouze
             #endif
         }
         
-
+        /// <summary>
+        /// Helper to get the AdStorage usage For FirebaseAnalytics configuration<br/>
+        /// based on the documentation: https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        /// </summary>
+        /// <returns></returns>
         public static bool GetFirebaseAdStorage()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -493,9 +472,14 @@ namespace com.binouze
             
             #endif
         }
+        /// <summary>
+        /// Helper to get the AdUserData usage For FirebaseAnalytics configuration<br/>
+        /// based on the documentation: https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        /// </summary>
+        /// <returns></returns>
         public static bool GetFirebaseAdUserData()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -513,9 +497,14 @@ namespace com.binouze
             
             #endif
         }
+        /// <summary>
+        /// Helper to get the AdPersonalization usage For FirebaseAnalytics configuration<br/>
+        /// based on the documentation: https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
+        /// </summary>
+        /// <returns></returns>
         public static bool GetFirebaseAdPersonalization()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -536,7 +525,7 @@ namespace com.binouze
         
         
         /// <summary>
-        /// Set a callback to listen for consent status change
+        /// Set a callback to listen for consent status changes
         /// </summary>
         /// <param name="Listener"></param>
         [UsedImplicitly]
@@ -560,7 +549,7 @@ namespace com.binouze
             OnInitialisationComplete = OnComplete;
             SetInstance();
             
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             InitComplete(ConsentStatus.UNKNOWN);
             #elif UNITY_ANDROID
@@ -584,12 +573,29 @@ namespace com.binouze
         }
 
         /// <summary>
-        /// true if user accepted GDPR consent usage necessary to see ads
+        /// true if user accepted GDPR consent usage necessary to see ads<br/>
+        /// as of the documentation says: https://support.google.com/admob/answer/9760862?hl=en<br/><br/>
+        /// 
+        /// Requirements to serve non-personalized ads:<br/><br/>
+        /// 
+        /// If the consent requirements for personalized ads are not met, Google will serve non-personalized ads when all of the following criteria are met:<br/><br/>
+        /// 
+        /// The end user grants Google consent to:<br/>
+        ///  • Store and/or access information on a device (Purpose 1)<br/><br/>
+        /// 
+        /// Legitimate interest (or consent, where a publisher configures their CMP to request it) is established for Google to:<br/>
+        ///  • Select basic ads (Purpose 2)<br/>
+        ///  • Measure ad performance (Purpose 7)<br/>
+        ///  • Apply market research to generate audience insights (Purpose 9)<br/>
+        ///  • Develop and improve products (Purpose 10)<br/>
+        ///
+        /// <br/><br/><br/>
+        /// THIS FUNCTION DOES NOT CHECK FOR PUBLISHER CONSENT, ONLY LEGITIMATE INTEREST
         /// </summary>
         [UsedImplicitly]
         public static bool CanShowAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -611,12 +617,31 @@ namespace com.binouze
         
 
         /// <summary>
-        /// true if user accepted GDPR consent usage necessary to see personnalized ads
+        /// true if user accepted GDPR consent usage necessary to see personnalized ads<br/>
+        /// as of the documentation says: https://support.google.com/admob/answer/9760862?hl=en<br/><br/>
+        /// 
+        /// Requirements to serve personalized ads:<br/><br/>
+        /// 
+        /// Google will serve personalized ads when <u>all</u> of the following criteria are met<br/><br/>
+        /// 
+        /// The end user grants Google consent to:<br/>
+        ///  • Store and/or access information on a device (Purpose 1)<br/>
+        ///  • Create a personalized ads profile (Purposes 3)<br/>
+        ///  • Select personalized ads (Purposes 4)<br/><br/>
+        /// 
+        /// Legitimate interest (or consent, where a publisher configures their CMP to request it) is established for Google to:<br/>
+        ///  • Select basic ads (Purpose 2)<br/>
+        ///  • Measure ad performance (Purpose 7)<br/>
+        ///  • Apply market research to generate audience insights (Purpose 9)<br/>
+        ///  • Develop and improve products (Purpose 10)<br/>
+        ///
+        /// <br/><br/><br/>
+        /// THIS FUNCTION DOES NOT CHECK FOR PUBLISHER CONSENT, ONLY LEGITIMATE INTEREST
         /// </summary>
         [UsedImplicitly]
         public static bool CanShowPersonalizedAds()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -640,9 +665,9 @@ namespace com.binouze
         /// if consent form is not required, returns true.
         /// </summary>
         [UsedImplicitly]
-        public static bool UserConsentedAll(List<int> vendorIds, List<int> externalIds)
+        public static bool UserConsentedAll( List<int> vendorIds, List<int> externalIds )
         {
-            #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+            #if UNITY_ANDROID || UNITY_IOS
             
             if( !IsGDPRRequired() )
                 return true;
@@ -677,7 +702,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool IsGDPRRequired()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             return false;
             #elif UNITY_ANDROID
@@ -702,7 +727,7 @@ namespace com.binouze
         [UsedImplicitly]
         public static bool IsFormAvailable()
         {
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
             
@@ -720,7 +745,6 @@ namespace com.binouze
 
         /// <summary>
         /// Show the form if the form is available
-        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
         [UsedImplicitly]
         public static void ShowForm()
@@ -729,7 +753,7 @@ namespace com.binouze
         }
         /// <summary>
         /// Show the form if the form is available
-        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
+        /// and call a callback when the user close the form (or if the form is not opened)
         /// </summary>
         [UsedImplicitly]
         public static void ShowForm( Action onComplete )
@@ -738,7 +762,7 @@ namespace com.binouze
             
             OnFormClosed = onComplete;
             
-            #if UNITY_EDITOR && !IMPLEMENTING
+            #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
             
@@ -764,7 +788,6 @@ namespace com.binouze
 
         /// <summary>
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
-        /// Optionally call a callback when the user close the form (or if the form is not oppenned)
         /// </summary>
         [UsedImplicitly]
         public static void ShowFormIfRequired()
@@ -773,7 +796,7 @@ namespace com.binouze
         }
         /// <summary>
         /// Show the form if the form is available and the status is ConsentStatus.REQUIRED
-        /// call a callback with true as result if the form has been shown, false if form not shown
+        /// and call a callback with true as result if the form has been shown, false if form not shown
         /// </summary>
         [UsedImplicitly]
         public static void ShowFormIfRequired( Action<bool> onComplete )
