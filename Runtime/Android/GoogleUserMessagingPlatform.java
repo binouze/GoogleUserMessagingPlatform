@@ -34,15 +34,17 @@ public class GoogleUserMessagingPlatform
     private static boolean ForceReset     = false;
     private static boolean TargetChildren = false;
     private static String  DebugDevice    = null;
+    private static int     DebugGeography = 0;
     
     /**
      * debug mode for a test device
      */
-    public static void SetDebugMode( String device, boolean forceReset ) 
+    public static void SetDebugMode( String device, boolean forceReset, int debugGeography ) 
     {
-        DebugDevice = device;
-        DebugMode   = DebugDevice != null;
-        ForceReset  = forceReset;
+        DebugDevice    = device;
+        DebugMode      = DebugDevice != null && debugGeography > 0;
+        ForceReset     = forceReset;
+        DebugGeography = debugGeography;
     }
     
     public static void SetTargetChildren( boolean val ) 
@@ -102,7 +104,7 @@ public class GoogleUserMessagingPlatform
         
             ConsentDebugSettings debugSettings = new ConsentDebugSettings
                 .Builder( UnityPlayer.currentActivity )
-                .setDebugGeography( ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA )
+                .setDebugGeography( DebugGeography )
                 .addTestDeviceHashedId( DebugDevice )
                 .build();
                 

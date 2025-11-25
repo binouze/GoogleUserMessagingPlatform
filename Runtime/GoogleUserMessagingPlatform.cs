@@ -36,6 +36,14 @@ namespace com.binouze
     }
     #endif
 
+    public enum DebugGeography
+    {
+        DEBUG_GEOGRAPHY_DISABLED = 0,
+        DEBUG_GEOGRAPHY_EEA = 1,
+        DEBUG_GEOGRAPHY_REGULATED_US_STATE = 3,
+        DEBUG_GEOGRAPHY_OTHER = 4,
+    }
+    
     public enum VendorsIds
     {
         //AdColony = 458,
@@ -88,7 +96,7 @@ namespace com.binouze
         private static extern void _EnableDebugLogging( bool enabled );
 
         [DllImport( "__Internal" )]
-        private static extern void _SetDebugMode( string debugDevice, bool forceReset );
+        private static extern void _SetDebugMode( string debugDevice, bool forceReset, int debugGeography );
 
         [DllImport( "__Internal" )]
         private static extern void _SetTargetChildren( bool targetChildren );
@@ -182,19 +190,20 @@ namespace com.binouze
         /// </summary>
         /// <param name="device">the debug device to test on</param>
         /// <param name="forceReset">true to force reset the form datas</param>
+        /// <param name="debugGeography"></param>
         [UsedImplicitly]
-        public static void SetDebugMode( string device, bool forceReset )
+        public static void SetDebugMode( string device, bool forceReset, DebugGeography debugGeography = DebugGeography.DEBUG_GEOGRAPHY_DISABLED )
         {
             #if UNITY_EDITOR && !UMP_IMPLEMENTING
             // nothing to do on editor
             #elif UNITY_ANDROID
 
             using var cls = new AndroidJavaClass( AndroidClass );
-            cls.CallStatic( "SetDebugMode", device, forceReset  );
+            cls.CallStatic( "SetDebugMode", device, forceReset, (int)debugGeography  );
 
             #elif UNITY_IOS
 
-            _SetDebugMode( device, forceReset );
+            _SetDebugMode( device, forceReset, (int)debugGeography );
 
             #endif
         }
@@ -845,8 +854,8 @@ namespace com.binouze
             if( _instance != null )
                 return;
             
-            _instance = (GoogleUserMessagingPlatform)FindObjectOfType( typeof(GoogleUserMessagingPlatform) );
-            if( _instance == null ) 
+            _instance = FindAnyObjectByType<GoogleUserMessagingPlatform>();
+            if( !_instance ) 
             {
                 const string goName = "GoogleUserMessagingPlatform";
 
