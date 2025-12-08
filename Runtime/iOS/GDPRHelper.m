@@ -113,6 +113,9 @@
 
 - (BOOL)canShowAds
 {
+    // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
+    // https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
+
     NSUserDefaults *settings = [self defaults];
 
     // Minimum required for at least non-personalized ads
@@ -130,6 +133,9 @@
 
 - (BOOL)canShowPersonalizedAds
 {
+    // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
+    // https://support.google.com/admob/answer/9760862?hl=en&ref_topic=9756841
+
     NSUserDefaults *settings = [self defaults];
 
     NSString *purposeConsent = [settings stringForKey:@"IABTCF_PurposeConsents"] ?: @"";
@@ -145,6 +151,8 @@
 }
 
 #pragma mark - Firebase Analytics specific
+
+// https://developers.google.com/tag-platform/security/guides/implement-TCF-strings
 
 - (BOOL)getFirebase_ad_storage
 {
