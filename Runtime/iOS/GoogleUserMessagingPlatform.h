@@ -57,7 +57,7 @@ extern "C" {
     bool _GetFirebase_ad_user_data();
 
     void _EnableDebugLogging(bool enabled);
-    void _SetDebugMode(const char* device, bool forceReset);
+    void _SetDebugMode(const char* device, bool forceReset, int debugGeography);
     void _SetTargetChildren(bool val);
     void _LoadForm(bool forceShow, bool forceDispatch);
     bool _IsFormAvailable();
