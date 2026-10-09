@@ -1,4 +1,11 @@
 <dependencies>
+    <!-- iOS : Swift Package en priorite (Swift Package Manager actif dans EDM), le pod reste en repli.
+      Meme URL que celle tiree par swift-package-manager-google-mobile-ads (AMRAdapterAdmob en SPM),
+      plage "1.1.0"..<"4.0.0" : SPM n'en resout qu'une copie. Laisser UMP en pod pendant que GMA
+      l'apporte en SPM le lierait deux fois. 3.1.0 = version servie par le pod. -->
+    <remoteSwiftPackage url="https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git" version="3.1.0" upToNextMajor="true">
+        <swiftPackage name="GoogleUserMessagingPlatform" replacesPod="GoogleUserMessagingPlatform"/>
+    </remoteSwiftPackage>
     <iosPods>
         <iosPod name="GoogleUserMessagingPlatform"/>
     </iosPods>
